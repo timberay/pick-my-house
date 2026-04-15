@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git commit*)",
+            "command": "if [ -x bin/rails ]; then bin/rails test >/dev/null 2>&1; rc=$?; if [ $rc -ne 0 ]; then echo '{\"continue\":false,\"stopReason\":\"bin/rails test failed. Fix failing tests before committing.\"}'; fi; fi",
+            "timeout": 120,
+            "statusMessage": "Running tests before commit..."
+          },
+          {
+            "type": "command",
+            "if": "Bash(git commit*)",
+            "command": "if [ -x bin/rubocop ]; then bin/rubocop --format quiet >/dev/null 2>&1; rc=$?; if [ $rc -ne 0 ]; then echo '{\"continue\":false,\"stopReason\":\"Rubocop violations found. Run bin/rubocop to see details.\"}'; fi; fi",
+            "timeout": 60,
+            "statusMessage": "Running rubocop before commit..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | { read -r f; if [[ \"$f\" == *.rb ]] && [ -x bin/rubocop ]; then bin/rubocop \"$f\" 2>&1; fi; } 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "Linting Ruby file..."
+          }
+        ]
+      }
+    ]
+  }
+}
