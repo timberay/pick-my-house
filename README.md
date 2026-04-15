@@ -1,24 +1,48 @@
-# README
+# Pick My House
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Rails 8 application for house picking/selection.
 
-Things you may want to cover:
+## Tech Stack
 
-* Ruby version
+- **Ruby** 3.4.8 / **Rails** ~> 8.1.3
+- **Database**: SQLite with Solid Trifecta (Solid Cache, Solid Queue, Solid Cable)
+- **Frontend**: Hotwire (Turbo + Stimulus), TailwindCSS, Importmap
+- **Asset Pipeline**: Propshaft
+- **Deployment**: Kamal 2, Thruster, Docker
 
-* System dependencies
+## Getting Started
 
-* Configuration
+```bash
+bin/setup    # Install dependencies, prepare database
+bin/dev      # Start development server
+```
 
-* Database creation
+## Development
 
-* Database initialization
+```bash
+bin/rails test               # Run all tests
+bin/rubocop                  # Lint check
+bin/rubocop -a               # Auto-fix lint
+bin/brakeman --quiet         # Security audit
+bin/bundler-audit            # Dependency audit
+```
 
-* How to run the test suite
+## Deployment
 
-* Services (job queues, cache servers, search engines, etc.)
+Deployed via [Kamal 2](https://kamal-deploy.org). See `config/deploy.yml` for configuration.
 
-* Deployment instructions
+```bash
+bin/kamal setup    # First deploy
+bin/kamal deploy   # Subsequent deploys
+```
 
-* ...
+## Documentation
+
+Detailed standards are in [`docs/standards/`](docs/standards/):
+
+| Document | Description |
+|----------|-------------|
+| [RULES.md](docs/standards/RULES.md) | DRY, Tidy First, documentation rules |
+| [STACK.md](docs/standards/STACK.md) | Architecture, tech stack, patterns |
+| [TOOLS.md](docs/standards/TOOLS.md) | Dev commands, environment config |
+| [QUALITY.md](docs/standards/QUALITY.md) | Testing, security, accessibility |
