@@ -46,3 +46,12 @@ Detailed standards are in [`docs/standards/`](docs/standards/):
 | [STACK.md](docs/standards/STACK.md) | Architecture, tech stack, patterns |
 | [TOOLS.md](docs/standards/TOOLS.md) | Dev commands, environment config |
 | [QUALITY.md](docs/standards/QUALITY.md) | Testing, security, accessibility |
+
+## Backup
+
+SQLite data is backed up via `bin/backup-sqlite <dest-dir>`, which uses
+`sqlite3 .backup` (safe online snapshot) and retains the last 14 days.
+
+For production, run this via `kamal app exec bin/backup-sqlite /var/backups/pmh`
+on a cron schedule, or evaluate `litestream` for continuous replication
+(tracked as a post-MVP option).

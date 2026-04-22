@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Simple cron-able SQLite online backup for Pick My House.
+# Usage:   bin/backup-sqlite <destination-dir>
+# Example: bin/backup-sqlite /var/backups/pick-my-house
+set -euo pipefail
+
+DEST_DIR="${1:-./tmp/backups}"
+TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+mkdir -p "$DEST_DIR"
+
+DB_PATHS=(
+  "storage/production.sqlite3"
+  "storage/production_cache.sqlite3"
+  "storage/production_queue.sqlite3"
+  "storage/production_cable.sqlite3"
+)
+
+for DB in "${DB_PATHS[@]}"; do
+  [[ -f "$DB" ]] || { echo "skip: $DB not found"; continue; }
+  FN="$DEST_DIR/$(basename "$DB" .sqlite3)-$TIMESTAMP.sqlite3"
+  sqlite3 "$DB" ".backup '$FN'"
+  gzip -f "$FN"
+  echo "backup ok: $FN.gz"
+done
+
+# Retention: keep last 14 days
+find "$DEST_DIR" -type f -mtime +14 -name '*.gz' -delete
