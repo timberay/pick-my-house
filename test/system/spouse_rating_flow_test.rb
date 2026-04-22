@@ -16,6 +16,9 @@ class SpouseRatingFlowTest < ApplicationSystemTestCase
     within(school_cell) { click_on "4" }
     within(noise_cell)  { click_on "2" }
 
+    # Wait for owner's last rating to persist before resetting the session
+    within(noise_cell) { find("button.bg-blue-600", text: "2") }
+
     house = House.last
     share_path = share_session_path(house.share_token)
 
@@ -29,6 +32,9 @@ class SpouseRatingFlowTest < ApplicationSystemTestCase
     # Spouse is now on /s/:share_token/rate — rate same 2 categories
     within(school_cell) { click_on "5" } # diff 1 → agreement
     within(noise_cell)  { click_on "5" } # diff 3 → disagreement
+
+    # Wait for spouse's last rating to persist before querying the DB
+    within(noise_cell) { find("button.bg-blue-600", text: "5") }
 
     # VERIFY DATA — model-level assertions (more reliable than cross-session UI)
     assert_equal 4, house.ratings.count
