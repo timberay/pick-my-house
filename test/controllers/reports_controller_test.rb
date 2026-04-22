@@ -34,6 +34,25 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "GET /houses/compare shows leading categories for each house" do
+    # Second house, layout favored
+    h2 = House.create!(alias_name: "집B", owner_session_id: @owner_id)
+    layout = Category.find_by!(key: "layout")
+    Rating.create!(house: h2, category: layout, rater_name: "나",
+                   rater_session_id: @owner_id, score: 5)
+    Rating.create!(house: h2, category: layout, rater_name: "남편",
+                   rater_session_id: "spouse-2", score: 5)
+    Rating.create!(house: @house, category: layout, rater_name: "나",
+                   rater_session_id: @owner_id, score: 3)
+    Rating.create!(house: @house, category: layout, rater_name: "남편",
+                   rater_session_id: "spouse-1", score: 3)
+
+    get compare_houses_path
+    assert_response :success
+    assert_match "집B", @response.body
+    assert_match "평면 구조", @response.body
+  end
+
   private
 
   def signed_owner_id
