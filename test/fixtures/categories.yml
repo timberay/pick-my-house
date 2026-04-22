@@ -1,0 +1,2 @@
+# Intentionally empty. Category rows are loaded via explicit create! in tests
+# that need them, or via Category.seed! in integration contexts.
