@@ -1,0 +1,7 @@
+<% content_for :title, "새 집 추가" %>
+
+<div class="mx-auto max-w-md p-4">
+  <%= link_to "← 돌아가기", root_path, class: "text-blue-600 text-sm" %>
+  <h1 class="text-2xl font-semibold mt-2 mb-4">새 집 추가</h1>
+  <%= render "form", house: @house %>
+</div>
