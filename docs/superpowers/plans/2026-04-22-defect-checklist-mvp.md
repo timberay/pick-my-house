@@ -89,9 +89,13 @@ git commit -m "chore(deps): add rack-attack for write-endpoint rate limiting"
 **Files:**
 - Create: `app/controllers/concerns/owner_identity.rb`
 - Modify: `app/controllers/application_controller.rb`
+- Modify: `config/routes.rb`
+- Create: `app/controllers/houses_controller.rb` (skeleton — expanded in Task 7)
 - Create: `test/controllers/concerns/owner_identity_test.rb`
 
 Identity model: **signed, permanent cookie** named `owner_session_id` holding a UUID. Issued automatically on first visit.
+
+> **Plan correction (2026-04-22):** the original plan used a Rack lambda for the temporary root route, but lambdas bypass `ApplicationController` entirely, so the concern's `before_action` never fires and the cookie is never set. We instead introduce a minimal `HousesController#index` skeleton in this task so the concern actually runs. Task 7 replaces the skeleton body with the real index.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -116,15 +120,23 @@ class OwnerIdentityTest < ActionDispatch::IntegrationTest
 end
 ```
 
-Note: this test depends on `root_path` returning 200. A skeleton `HousesController#index` will be added in Task 7; until then the test may 500. That is acceptable: we add a throwaway root route first.
+- [ ] **Step 2: Add a skeleton HousesController + root route**
 
-- [ ] **Step 2: Add a temporary root route so tests can boot**
+Create `app/controllers/houses_controller.rb` (will be expanded in Task 7):
+
+```ruby
+class HousesController < ApplicationController
+  def index
+    render plain: "ok"
+  end
+end
+```
 
 Modify `config/routes.rb`:
 
 ```ruby
 Rails.application.routes.draw do
-  root to: ->(_env) { [200, { "Content-Type" => "text/plain" }, ["ok"]] }
+  root "houses#index"
 
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -133,12 +145,10 @@ Rails.application.routes.draw do
 end
 ```
 
-(The lambda root is a placeholder; Task 7 replaces it with `root "houses#index"`.)
-
 - [ ] **Step 3: Run test — expect FAIL**
 
 Run: `bin/rails test test/controllers/concerns/owner_identity_test.rb`
-Expected: both tests FAIL because no cookie is set yet.
+Expected: both tests FAIL because no cookie is set yet (root returns 200 but no cookie).
 
 - [ ] **Step 4: Implement the concern**
 
@@ -194,6 +204,7 @@ Expected: 2 runs, 2 assertions, 0 failures.
 ```bash
 git add app/controllers/concerns/owner_identity.rb \
         app/controllers/application_controller.rb \
+        app/controllers/houses_controller.rb \
         config/routes.rb \
         test/controllers/concerns/owner_identity_test.rb
 git commit -m "feat(auth): issue signed owner_session_id cookie via OwnerIdentity concern"
@@ -858,13 +869,15 @@ git commit -m "feat(summary): add pure HouseSummary calculator for counts and li
 
 **Files:**
 - Modify: `config/routes.rb`
-- Create: `app/controllers/houses_controller.rb`
+- Modify: `app/controllers/houses_controller.rb` (skeleton created in Task 2 — expand here)
 - Create: `app/views/houses/index.html.erb`
 - Create: `test/controllers/houses_controller_test.rb`
 
-- [ ] **Step 1: Update routes (replace placeholder root)**
+> **Note:** Task 2 already wired `root "houses#index"` and created a skeleton `HousesController#index` that returns `render plain: "ok"`. This task (a) adds the remaining nested resource routes and (b) replaces the skeleton body with the real index + view.
 
-Modify `config/routes.rb`:
+- [ ] **Step 1: Add resource routes (root is already wired)**
+
+Modify `config/routes.rb` — add `resources :houses` with nested checks/summary. The `root "houses#index"` line should already exist from Task 2:
 
 ```ruby
 Rails.application.routes.draw do
@@ -924,9 +937,9 @@ end
 Run: `bin/rails test test/controllers/houses_controller_test.rb`
 Expected: "uninitialized constant HousesController".
 
-- [ ] **Step 4: Implement controller**
+- [ ] **Step 4: Replace skeleton index with real implementation**
 
-Create `app/controllers/houses_controller.rb`:
+Modify `app/controllers/houses_controller.rb` (the file already exists from Task 2 as a skeleton — replace its body):
 
 ```ruby
 class HousesController < ApplicationController
