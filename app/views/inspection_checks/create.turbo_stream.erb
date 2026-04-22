@@ -1,0 +1,6 @@
+<%= turbo_stream.replace "check-row-#{@check.item_key}" do %>
+  <%= render "inspection_checks/check_row",
+             house: @house,
+             item: Checklist.item(@check.item_key),
+             check: @check %>
+<% end %>
