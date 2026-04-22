@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a single-user, mobile-first house defect inspection tool. User saves houses and records traffic-light-graded (ok/warn/severe) checks against ~51 fixed items across 10 domains; summary screen shows severe/warn lists.
+**Goal:** Build a single-user, mobile-first house defect inspection tool. User saves houses and records traffic-light-graded (ok/warn/severe) checks against ~50 fixed items across 10 domains; summary screen shows severe/warn lists.
 
 **Architecture:** Rails 8 + Hotwire. Two AR models (`House`, `InspectionCheck`). Checklist items in `config/checklist.yml` loaded by `Checklist` PORO. Anonymous owner via signed cookie (`OwnerIdentity` concern). Three controllers: `Houses` (CRUD + inspection screen), `InspectionChecks` (Turbo Stream upsert), `Summaries` (read-only).
 
@@ -221,7 +221,7 @@ git commit -m "feat(auth): issue signed owner_session_id cookie via OwnerIdentit
 
 - [ ] **Step 1: Create the checklist YAML**
 
-Create `config/checklist.yml` with the 51-item content from the spec:
+Create `config/checklist.yml` with the 50-item content from the spec (water 7 + electric 5 + mold 6 + windows 5 + smell 4 + noise 4 + heating 4 + security 4 + finish 6 + surround 5 = 50):
 
 ```yaml
 water:
@@ -344,8 +344,8 @@ class ChecklistTest < ActiveSupport::TestCase
     assert_includes keys, "elevator"
   end
 
-  test "total item count is 51" do
-    assert_equal 51, Checklist.item_keys.size
+  test "total item count is 50" do
+    assert_equal 50, Checklist.item_keys.size
   end
 
   test "item(key) returns the matching item with its domain" do
@@ -357,7 +357,7 @@ class ChecklistTest < ActiveSupport::TestCase
 
   test "raises when YAML is missing" do
     Checklist.reset!
-    Checklist.stub :yaml_path, Pathname.new("/nonexistent/checklist.yml") do
+    with_yaml_path(Pathname.new("/nonexistent/checklist.yml")) do
       assert_raises(Checklist::Error) { Checklist.domains }
     end
   end
@@ -367,10 +367,22 @@ class ChecklistTest < ActiveSupport::TestCase
     Tempfile.create(["checklist", ".yml"]) do |f|
       f.write("- just\n- a\n- list\n")
       f.flush
-      Checklist.stub :yaml_path, Pathname.new(f.path) do
+      with_yaml_path(Pathname.new(f.path)) do
         assert_raises(Checklist::Error) { Checklist.domains }
       end
     end
+  end
+
+  private
+
+  # Minitest 6 (bundled with Rails 8) removed Object#stub, so we swap the
+  # singleton method temporarily and restore it after the block.
+  def with_yaml_path(path)
+    original = Checklist.method(:yaml_path)
+    Checklist.define_singleton_method(:yaml_path) { path }
+    yield
+  ensure
+    Checklist.define_singleton_method(:yaml_path, &original)
   end
 end
 ```
@@ -456,7 +468,7 @@ Expected: 7 runs, passing.
 
 ```bash
 git add config/checklist.yml app/lib/checklist.rb test/lib/checklist_test.rb
-git commit -m "feat(checklist): load 51-item defect checklist from config/checklist.yml"
+git commit -m "feat(checklist): load 50-item defect checklist from config/checklist.yml"
 ```
 
 ---
@@ -2153,7 +2165,7 @@ git push origin archive/scorecard
 ## Post-implementation checklist (Gate 1)
 
 - [ ] Home → new → inspection → summary flow works on mobile Safari (real device)
-- [ ] 51 items visible across 10 domains
+- [ ] 50 items visible across 10 domains
 - [ ] Severity buttons meet 44px touch target
 - [ ] Delete confirmation blocks accidental removal
 - [ ] CI fully green

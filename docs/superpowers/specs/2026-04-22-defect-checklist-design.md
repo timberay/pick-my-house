@@ -157,7 +157,7 @@ surround:
     delivery_security:    { label_ko: "택배/경비 시스템" }
 ```
 
-10개 도메인 × 4-7항목 = **총 51개**. 카피/문구는 구현 중 1차 pass 후 베타 피드백으로 다듬는다.
+10개 도메인 × 4-7항목 = **총 50개** (water 7, electric 5, mold 6, windows 5, smell 4, noise 4, heating 4, security 4, finish 6, surround 5). 카피/문구는 구현 중 1차 pass 후 베타 피드백으로 다듬는다.
 
 ## Components
 
