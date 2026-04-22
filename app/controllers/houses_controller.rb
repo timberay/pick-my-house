@@ -19,6 +19,8 @@ class HousesController < ApplicationController
   end
 
   def show
+    @domains = Checklist.domains
+    @checks_by_key = @house.inspection_checks.index_by(&:item_key)
   end
 
   def edit
@@ -34,7 +36,9 @@ class HousesController < ApplicationController
 
   def set_house
     @house = House.owned_by(owner_session_id).find_by(id: params[:id])
-    head :not_found unless @house
+    return if @house
+
+    head :not_found
   end
 
   def house_params

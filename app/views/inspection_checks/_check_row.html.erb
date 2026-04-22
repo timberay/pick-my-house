@@ -1,0 +1,49 @@
+<%
+  # locals: house, item, check
+  current = check&.severity
+%>
+<div id="check-row-<%= item.key %>"
+     class="py-2 border-b last:border-0"
+     data-controller="severity-selector memo-toggle">
+  <div class="flex justify-between items-center gap-2">
+    <div class="flex-1 text-sm"><%= item.label_ko %></div>
+    <%= form_with url: house_checks_path(house),
+                  method: :post,
+                  data: { turbo_stream: true, severity_selector_target: "form" },
+                  class: "flex gap-1" do |f| %>
+      <%= f.hidden_field :item_key, value: item.key %>
+      <% %w[ok warn severe].each do |level| %>
+        <% label = { "ok" => "양호", "warn" => "주의", "severe" => "심각" }[level] %>
+        <% pressed = current == level %>
+        <button type="submit"
+                name="severity"
+                value="<%= level %>"
+                aria-pressed="<%= pressed %>"
+                class="min-w-11 min-h-11 px-2 rounded text-sm border
+                       <%= pressed ? level_selected_class(level) : 'bg-white text-gray-700 border-gray-300' %>">
+          <%= label %>
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if check %>
+    <div class="mt-1 flex gap-2 items-start" data-memo-toggle-target="panel">
+      <details class="w-full text-sm">
+        <summary class="cursor-pointer text-blue-600">메모 <%= check.memo.present? ? "수정" : "추가" %></summary>
+        <%= form_with url: house_checks_path(house), method: :post,
+                      data: { turbo_stream: true }, class: "mt-2 flex gap-2" do |f| %>
+          <%= f.hidden_field :item_key, value: item.key %>
+          <%= f.hidden_field :severity, value: check.severity %>
+          <%= f.text_field :memo, value: check.memo, maxlength: 500,
+              placeholder: "특이사항 한 줄",
+              class: "flex-1 border rounded px-2 py-1" %>
+          <button type="submit" class="bg-gray-800 text-white px-3 rounded">저장</button>
+        <% end %>
+        <% if check.memo.present? %>
+          <p class="mt-1 text-xs text-gray-700">└ <%= check.memo %></p>
+        <% end %>
+      </details>
+    </div>
+  <% end %>
+</div>

@@ -42,6 +42,26 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  test "GET /houses/:id shows inspection screen with all 10 domains" do
+    get root_path
+    sid = signed_cookie(:owner_session_id)
+    h = House.create!(alias: "Inspection subject", owner_session_id: sid)
+
+    get house_path(h)
+    assert_response :success
+    assert_match "Inspection subject", @response.body
+    Checklist.domains.each do |d|
+      assert_match d.label_ko, @response.body
+    end
+  end
+
+  test "GET /houses/:id for another owner returns 404" do
+    other = House.create!(alias: "Not yours", owner_session_id: "other-sid")
+    get root_path # mint cookie for this session
+    get house_path(other)
+    assert_response :not_found
+  end
+
   private
 
   def signed_cookie(name)

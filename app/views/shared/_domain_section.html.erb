@@ -1,0 +1,19 @@
+<%
+  # locals: house, domain, checks_by_key
+  items = domain.items
+  rated = items.count { |i| checks_by_key.key?(i.key) }
+%>
+<details class="border rounded mb-2" <%= "open" if domain == Checklist.domains.first %>>
+  <summary class="cursor-pointer px-3 py-2 bg-gray-50 flex justify-between">
+    <span class="font-medium"><%= domain.label_ko %></span>
+    <span class="text-sm text-gray-600">진행 <%= rated %>/<%= items.size %></span>
+  </summary>
+  <div class="px-3">
+    <% items.each do |item| %>
+      <%= render "inspection_checks/check_row",
+                 house: house,
+                 item: item,
+                 check: checks_by_key[item.key] %>
+    <% end %>
+  </div>
+</details>
