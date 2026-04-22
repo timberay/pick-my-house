@@ -29,7 +29,6 @@ class HouseTest < ActiveSupport::TestCase
   end
 
   test "destroys inspection_checks on destroy" do
-    skip "pending InspectionCheck model (Task 5)"
     h = House.create!(alias: "Mine", owner_session_id: SID_A)
     h.inspection_checks.create!(item_key: "water_pressure", severity: :ok)
     assert_difference -> { InspectionCheck.count }, -1 do
