@@ -1,0 +1,25 @@
+<div class="max-w-lg mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4">새 집 추가</h1>
+  <%= form_with model: @house, class: "space-y-4" do |f| %>
+    <% if @house.errors.any? %>
+      <div class="bg-red-50 text-red-800 p-3 rounded">
+        <%= @house.errors.full_messages.join(", ") %>
+      </div>
+    <% end %>
+    <div>
+      <%= f.label :alias_name, "집 별칭", class: "block font-medium mb-1" %>
+      <%= f.text_field :alias_name, required: true, autofocus: true,
+            placeholder: "예: 신반포 32평", class: "w-full border rounded p-3 text-base" %>
+    </div>
+    <div>
+      <%= f.label :address, "주소 (선택)", class: "block font-medium mb-1" %>
+      <%= f.text_field :address, class: "w-full border rounded p-3 text-base" %>
+    </div>
+    <div>
+      <%= f.label :agent_contact, "중개인 연락처 (선택)", class: "block font-medium mb-1" %>
+      <%= f.text_field :agent_contact, class: "w-full border rounded p-3 text-base" %>
+    </div>
+    <%= f.submit "이 집 등록하기",
+          class: "w-full py-3 rounded bg-blue-600 text-white font-medium" %>
+  <% end %>
+</div>
