@@ -1,0 +1,89 @@
+water:
+  label_ko: "수도/배관"
+  items:
+    water_pressure: { label_ko: "수압 충분 (샤워기 세게 틀어서)" }
+    hot_water_time: { label_ko: "온수 30초 내 나옴" }
+    rust_free: { label_ko: "녹물/이물질 없음" }
+    drain_speed: { label_ko: "세면대/싱크대 배수 빠름" }
+    balcony_drain: { label_ko: "베란다 하수구 막힘 없음" }
+    toilet_flush: { label_ko: "변기 물 내림 정상" }
+    boiler_on_time: { label_ko: "보일러 온수 대기 시간 합리적" }
+
+electric:
+  label_ko: "전기"
+  items:
+    outlets_working: { label_ko: "콘센트 작동 (방별 1개 이상 확인)" }
+    breaker_accessible: { label_ko: "메인/누전 차단기 위치 확인 가능" }
+    lights_working: { label_ko: "조명 모두 작동" }
+    aircon_drain: { label_ko: "에어컨 배수관 설치 가능 (구멍 있음)" }
+    internet_line: { label_ko: "인터넷 회선(랜선/벽 단자) 존재" }
+
+mold:
+  label_ko: "곰팡이/결로"
+  items:
+    ceiling_corner: { label_ko: "안방 천장/벽 모서리 곰팡이 없음" }
+    bath_silicone: { label_ko: "욕실 천장/실리콘 곰팡이 없음" }
+    window_frame: { label_ko: "창틀(북향 특히) 결로/곰팡이 흔적 없음" }
+    wallpaper_stain: { label_ko: "벽지/장판 얼룩·들뜸 없음" }
+    sink_under: { label_ko: "싱크대 하부 수납장 곰팡이 없음" }
+    balcony_wall: { label_ko: "베란다 벽 얼룩/결로 흔적 없음" }
+
+windows:
+  label_ko: "창호/단열"
+  items:
+    window_smooth: { label_ko: "창문 여닫이 부드러움" }
+    window_lock: { label_ko: "창문 잠금 장치 정상" }
+    window_screen: { label_ko: "방충망 찢김 없음" }
+    window_draft: { label_ko: "창문 틈새 외풍 없음" }
+    double_glazing: { label_ko: "이중창 여부 확인" }
+
+smell:
+  label_ko: "냄새"
+  items:
+    indoor_musty: { label_ko: "실내 곰팡이/쉰내 없음" }
+    drain_sewer: { label_ko: "배수구/하수구 역류 냄새 없음" }
+    hallway_smell: { label_ko: "엘베 홀/복도 냄새 없음" }
+    trap_water: { label_ko: "하수구 트랩 물 고임(S트랩) 있음" }
+
+noise:
+  label_ko: "소음"
+  items:
+    floor_noise: { label_ko: "층간 소음 (가능하면 저녁 방문)" }
+    road_noise: { label_ko: "도로 소음 (창문 닫고 체감)" }
+    pipe_noise: { label_ko: "배관 소리 (이웃 사용 시)" }
+    external_noise: { label_ko: "주변 공사/철도 소리" }
+
+heating:
+  label_ko: "난방"
+  items:
+    boiler_condition: { label_ko: "보일러 연식/상태" }
+    heating_type: { label_ko: "난방 방식 (지역/개별/도시가스)" }
+    winter_cost: { label_ko: "겨울 난방비 추정치 확인" }
+    floor_heating: { label_ko: "바닥 난방 작동 (시운전)" }
+
+security:
+  label_ko: "방범/잠금"
+  items:
+    door_lock: { label_ko: "현관 도어락 정상 (리셋 확인)" }
+    peephole: { label_ko: "현관 외시경/카메라" }
+    intercom: { label_ko: "인터폰 영상/음성 정상" }
+    window_guard: { label_ko: "저층일 경우 창문 방범창" }
+
+finish:
+  label_ko: "마감/외관"
+  items:
+    wallpaper: { label_ko: "벽지 찢김/얼룩/들뜸" }
+    flooring: { label_ko: "장판 찢김/들뜸/변색" }
+    tile_grout: { label_ko: "타일 깨짐/실리콘 마감" }
+    door_hinge: { label_ko: "문 경첩/손잡이 흔들림 없음" }
+    kitchen_cabinet: { label_ko: "싱크대 상판/수납 파손 없음" }
+    door_gap: { label_ko: "방문 틈새/휨 없음" }
+
+surround:
+  label_ko: "주변환경"
+  items:
+    elevator: { label_ko: "엘리베이터 속도/소리/청결" }
+    corridor: { label_ko: "공용 복도 냄새/청결" }
+    garbage: { label_ko: "쓰레기장 거리/냄새" }
+    parking: { label_ko: "주차장 자리 확보 여부" }
+    delivery_security: { label_ko: "택배/경비 시스템" }
