@@ -27,9 +27,16 @@ class HousesController < ApplicationController
   end
 
   def update
+    if @house.update(house_params)
+      redirect_to @house
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy
+    @house.destroy!
+    redirect_to root_path, notice: "삭제되었습니다"
   end
 
   private

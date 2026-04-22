@@ -62,6 +62,46 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "GET /houses/:id/edit shows form" do
+    get root_path
+    sid = signed_cookie(:owner_session_id)
+    h = House.create!(alias: "Edit me", owner_session_id: sid)
+
+    get edit_house_path(h)
+    assert_response :success
+    assert_select "form"
+  end
+
+  test "PATCH /houses/:id updates attributes" do
+    get root_path
+    sid = signed_cookie(:owner_session_id)
+    h = House.create!(alias: "Old", owner_session_id: sid)
+
+    patch house_path(h), params: { house: { alias: "New" } }
+    assert_redirected_to house_path(h)
+    assert_equal "New", h.reload.alias
+  end
+
+  test "DELETE /houses/:id destroys house and checks" do
+    get root_path
+    sid = signed_cookie(:owner_session_id)
+    h = House.create!(alias: "Doomed", owner_session_id: sid)
+    h.inspection_checks.create!(item_key: "water_pressure", severity: :ok)
+
+    assert_difference -> { House.count }, -1 do
+      assert_difference -> { InspectionCheck.count }, -1 do
+        delete house_path(h)
+      end
+    end
+    assert_redirected_to root_path
+  end
+
+  test "DELETE /houses/:id for other owner returns 404" do
+    other = House.create!(alias: "Not mine", owner_session_id: "other-sid")
+    delete house_path(other)
+    assert_response :not_found
+  end
+
   private
 
   def signed_cookie(name)
