@@ -1,0 +1,7 @@
+<%= turbo_stream.replace dom_id(@category, :rating_cell) do %>
+  <%= render "ratings/rating",
+             category: @category,
+             rating: @rating,
+             house: @house,
+             context: @context %>
+<% end %>

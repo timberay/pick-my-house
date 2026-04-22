@@ -1,2 +1,19 @@
-<%# Minimal placeholder — replaced in Task 10 with full partial %>
-<li class="border rounded p-3"><%= category.label_ko %></li>
+<%# Locals: category, rating, house, context (:owner or :rater) %>
+<li id="<%= dom_id(category, :rating_cell) %>" class="border rounded p-3 bg-white">
+  <div class="flex justify-between items-center mb-2">
+    <span class="font-medium"><%= category.label_ko %></span>
+    <span class="text-sm text-gray-500">
+      <%= rating&.score ? "#{rating.score}/5" : "미평가" %>
+    </span>
+  </div>
+  <%= form_with url: rating_form_url(category: category, house: house, context: context),
+                method: :patch,
+                data: { turbo_stream: true },
+                class: "flex gap-1" do |f| %>
+    <% (1..5).each do |score| %>
+      <%= f.button score,
+            name: "rating[score]", value: score,
+            class: "flex-1 min-h-[44px] rounded border #{rating&.score == score ? 'bg-blue-600 text-white border-blue-600' : 'bg-gray-50'}" %>
+    <% end %>
+  <% end %>
+</li>
