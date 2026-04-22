@@ -17,6 +17,6 @@ class CategoryTest < ActiveSupport::TestCase
   test "ordered scope returns by order ascending" do
     b = Category.create!(key: "b", label_ko: "B", order: 2)
     a = Category.create!(key: "a", label_ko: "A", order: 1)
-    assert_equal [a, b], Category.ordered.to_a
+    assert_equal [ a, b ], Category.ordered.to_a
   end
 end
