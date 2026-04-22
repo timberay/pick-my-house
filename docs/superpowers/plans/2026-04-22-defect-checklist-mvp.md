@@ -1890,22 +1890,32 @@ require "test_helper"
 
 class RateLimitTest < ActionDispatch::IntegrationTest
   setup do
+    # Test env uses :null_store (config/environments/test.rb), which silently
+    # drops Rack::Attack's counters — the throttle would never fire. Swap to
+    # an in-memory store for the duration of this test and restore it after.
+    @previous_store = Rack::Attack.cache.store
+    Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
     Rack::Attack.reset!
     Rack::Attack.enabled = true
   end
 
-  teardown { Rack::Attack.enabled = false }
+  teardown do
+    Rack::Attack.enabled = false
+    Rack::Attack.cache.store = @previous_store
+  end
 
   test "throttles POST /houses after burst" do
     get root_path # mint cookie
     burst = 11
-    responses = burst.times.map do
-      post houses_path, params: { house: { alias: "Spam #{_1}" } }
+    burst.times do |i|
+      post houses_path, params: { house: { alias: "Spam #{i}" } }
     end
     assert_equal 429, response.status, "last of #{burst} POSTs should be throttled"
   end
 end
 ```
+
+> **Plan note:** The initial draft used `burst.times.map do ... post ...` + `_1`, but (a) the resulting array is unused (rubocop flags it) and (b) the cache-swap was missing. The snippet above is the corrected version.
 
 - [ ] **Step 2: Run — expect FAIL (no initializer)**
 
