@@ -18,7 +18,7 @@ DB_PATHS=(
 for DB in "${DB_PATHS[@]}"; do
   [[ -f "$DB" ]] || { echo "skip: $DB not found"; continue; }
   FN="$DEST_DIR/$(basename "$DB" .sqlite3)-$TIMESTAMP.sqlite3"
-  sqlite3 "$DB" ".backup '$FN'"
+  sqlite3 "$DB" -cmd ".backup \"$FN\"" ".quit"
   gzip -f "$FN"
   echo "backup ok: $FN.gz"
 done

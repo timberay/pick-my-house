@@ -18,7 +18,7 @@
     </section>
 
     <section class="mb-5">
-      <h2 class="text-lg font-semibold mb-2 text-green-700">✓ 의견 일치</h2>
+      <h2 class="text-lg font-semibold mb-2 text-green-700">의견 일치</h2>
       <% if @result.agreements.any? %>
         <ul class="list-disc pl-5 text-green-800">
           <% @result.agreements.each do |key| %>
@@ -31,7 +31,7 @@
     </section>
 
     <section class="mb-5">
-      <h2 class="text-lg font-semibold mb-2 text-red-700">⚠ 의견 갈림</h2>
+      <h2 class="text-lg font-semibold mb-2 text-red-700">의견 갈림</h2>
       <% if @result.disagreements.any? %>
         <ul class="list-disc pl-5 text-red-800">
           <% @result.disagreements.each do |key| %>
