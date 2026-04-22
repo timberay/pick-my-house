@@ -37,6 +37,11 @@ class RaterSessionsControllerTest < ActionDispatch::IntegrationTest
     assert_match "학군 접근성", @response.body
   end
 
+  test "GET /s/:share_token/rate without cookie redirects to name form" do
+    get share_rate_path(@house.share_token)
+    assert_redirected_to share_session_path(@house.share_token)
+  end
+
   private
 
   def signed_rater_id(share_token)

@@ -2,6 +2,7 @@ class RaterSessionsController < ApplicationController
   include RaterIdentity
 
   before_action :load_house_by_share_token
+  before_action :require_rater_session, only: [ :rate ]
 
   def show
     if current_rater_id_for(@house.share_token).present?
@@ -34,5 +35,11 @@ class RaterSessionsController < ApplicationController
   def load_house_by_share_token
     @house = House.find_by(share_token: params[:share_token])
     raise ActiveRecord::RecordNotFound unless @house
+  end
+
+  def require_rater_session
+    return if current_rater_id_for(@house.share_token).present?
+
+    redirect_to share_session_path(@house.share_token)
   end
 end

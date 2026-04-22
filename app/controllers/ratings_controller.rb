@@ -7,8 +7,9 @@ class RatingsController < ApplicationController
   # PATCH /houses/:house_id/ratings/:id
   def update
     upsert_rating!(rater_id: current_owner_id, rater_name: current_owner_name)
+    @context = :owner
     respond_to do |format|
-      format.turbo_stream # renders update.turbo_stream.erb
+      format.turbo_stream
       format.html { redirect_to house_path(@house) }
     end
   rescue ActiveRecord::RecordInvalid
@@ -22,8 +23,9 @@ class RatingsController < ApplicationController
     raise ActiveRecord::RecordNotFound if rater_id.blank?
 
     upsert_rating!(rater_id: rater_id, rater_name: rater_name)
+    @context = :rater
     respond_to do |format|
-      format.turbo_stream { render :update } # reuse same stream partial
+      format.turbo_stream { render :update }
       format.html { redirect_to share_rate_path(@house.share_token) }
     end
   rescue ActiveRecord::RecordInvalid
@@ -41,7 +43,6 @@ class RatingsController < ApplicationController
     @rating.score      = rating_params[:score]
     @rating.memo       = rating_params[:memo]
     @rating.save!
-    @context = rater_id == current_owner_id ? :owner : :rater
   end
 
   def load_owner_house_and_category
