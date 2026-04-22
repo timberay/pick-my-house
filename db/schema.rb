@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_22_012151) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_22_012600) do
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "key", null: false
@@ -31,4 +31,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_012151) do
     t.index ["owner_session_id"], name: "index_houses_on_owner_session_id"
     t.index ["share_token"], name: "index_houses_on_share_token", unique: true
   end
+
+  create_table "ratings", force: :cascade do |t|
+    t.integer "category_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "house_id", null: false
+    t.text "memo"
+    t.string "rater_name", null: false
+    t.string "rater_session_id", null: false
+    t.integer "score", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_ratings_on_category_id"
+    t.index ["house_id", "category_id", "rater_session_id"], name: "idx_ratings_unique_per_rater", unique: true
+    t.index ["house_id"], name: "index_ratings_on_house_id"
+  end
+
+  add_foreign_key "ratings", "categories"
+  add_foreign_key "ratings", "houses"
 end
