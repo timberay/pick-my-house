@@ -1,0 +1,15 @@
+<div class="max-w-lg mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-2">'<%= @house.alias_name %>'에 평가를 남기려면</h1>
+  <p class="text-gray-600 mb-4">이름을 입력해 주세요. 이 이름은 리포트에 당신의 평가를 구분하는 데 사용됩니다.</p>
+
+  <% if flash[:alert] %>
+    <div class="bg-red-50 text-red-800 p-3 rounded mb-4"><%= flash[:alert] %></div>
+  <% end %>
+
+  <%= form_with url: share_session_path(@house.share_token), method: :post, class: "space-y-4" do |f| %>
+    <%= f.text_field "rater[name]", required: true, autofocus: true,
+          placeholder: "예: 남편",
+          class: "w-full border rounded p-3 text-base" %>
+    <%= f.submit "평가 시작하기", class: "w-full py-3 rounded bg-blue-600 text-white font-medium" %>
+  <% end %>
+</div>
