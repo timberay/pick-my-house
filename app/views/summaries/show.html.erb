@@ -1,0 +1,80 @@
+<% content_for :title, "#{@house.alias} 요약" %>
+
+<div class="mx-auto max-w-md p-4">
+  <%= link_to "← 돌아가기", @house, class: "text-blue-600 text-sm" %>
+  <h1 class="text-2xl font-semibold mt-2 mb-4"><%= @house.alias %> 요약</h1>
+
+  <div class="grid grid-cols-4 gap-2 mb-6 text-center">
+    <div class="bg-red-50 text-red-700 rounded p-2">
+      <div class="text-xs">심각</div>
+      <div class="text-xl font-bold"><%= @summary.counts[:severe] %></div>
+    </div>
+    <div class="bg-yellow-50 text-yellow-700 rounded p-2">
+      <div class="text-xs">주의</div>
+      <div class="text-xl font-bold"><%= @summary.counts[:warn] %></div>
+    </div>
+    <div class="bg-green-50 text-green-700 rounded p-2">
+      <div class="text-xs">양호</div>
+      <div class="text-xl font-bold"><%= @summary.counts[:ok] %></div>
+    </div>
+    <div class="bg-gray-50 text-gray-700 rounded p-2">
+      <div class="text-xs">미점검</div>
+      <div class="text-xl font-bold"><%= @summary.counts[:unchecked] %></div>
+    </div>
+  </div>
+
+  <% if @summary.severe_items.any? %>
+    <section class="mb-6">
+      <h2 class="font-semibold text-red-700 mb-2">심각 (<%= @summary.severe_items.size %>)</h2>
+      <ul class="space-y-2">
+        <% @summary.severe_items.each do |entry| %>
+          <li class="border-l-4 border-red-500 pl-3 py-1">
+            <div class="font-medium"><%= entry[:item].label_ko %></div>
+            <div class="text-xs text-gray-500"><%= Checklist.domains.find { |d| d.key == entry[:item].domain }.label_ko %></div>
+            <% if entry[:check].memo.present? %>
+              <div class="text-sm text-gray-700 mt-1">└ <%= entry[:check].memo %></div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <% if @summary.warn_items.any? %>
+    <section class="mb-6">
+      <h2 class="font-semibold text-yellow-700 mb-2">주의 (<%= @summary.warn_items.size %>)</h2>
+      <ul class="space-y-2">
+        <% @summary.warn_items.each do |entry| %>
+          <li class="border-l-4 border-yellow-500 pl-3 py-1">
+            <div class="font-medium"><%= entry[:item].label_ko %></div>
+            <% if entry[:check].memo.present? %>
+              <div class="text-sm text-gray-700 mt-1">└ <%= entry[:check].memo %></div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <% if @summary.unchecked_items.any? %>
+    <details class="mb-6">
+      <summary class="cursor-pointer text-gray-600">미점검 항목 펼치기 (<%= @summary.unchecked_items.size %>)</summary>
+      <ul class="mt-2 space-y-1 text-sm text-gray-700">
+        <% @summary.unchecked_items.each do |item| %>
+          <li>▸ <%= item.label_ko %></li>
+        <% end %>
+      </ul>
+    </details>
+  <% end %>
+
+  <% if @summary.deleted_items.any? %>
+    <details class="mb-6">
+      <summary class="cursor-pointer text-gray-500">삭제된 항목 (<%= @summary.deleted_items.size %>)</summary>
+      <ul class="mt-2 space-y-1 text-xs text-gray-600">
+        <% @summary.deleted_items.each do |check| %>
+          <li>▸ <%= check.item_key %></li>
+        <% end %>
+      </ul>
+    </details>
+  <% end %>
+</div>
