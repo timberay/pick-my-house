@@ -1,0 +1,29 @@
+<% content_for :title, "집 목록" %>
+
+<div class="mx-auto max-w-md p-4">
+  <h1 class="text-2xl font-semibold mb-4">내 집 목록</h1>
+
+  <% if @houses.empty? %>
+    <p class="text-gray-500 mb-6">저장된 집이 없습니다. 아래 버튼으로 추가하세요.</p>
+  <% else %>
+    <ul class="space-y-3 mb-6">
+      <% @houses.each do |house| %>
+        <li class="border rounded p-3">
+          <%= link_to house_path(house), class: "block" do %>
+            <div class="font-medium text-lg"><%= house.alias %></div>
+            <% summary = HouseSummary.for(house) %>
+            <div class="text-sm text-gray-600 mt-1">
+              심각 <%= summary.counts[:severe] %> ·
+              주의 <%= summary.counts[:warn] %> ·
+              양호 <%= summary.counts[:ok] %> ·
+              미점검 <%= summary.counts[:unchecked] %>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= link_to "+ 새 집 추가", new_house_path,
+      class: "block w-full text-center bg-blue-600 text-white py-3 rounded text-lg" %>
+</div>
