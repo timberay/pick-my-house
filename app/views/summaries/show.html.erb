@@ -47,6 +47,7 @@
         <% @summary.warn_items.each do |entry| %>
           <li class="border-l-4 border-yellow-500 pl-3 py-1">
             <div class="font-medium"><%= entry[:item].label_ko %></div>
+            <div class="text-xs text-gray-500"><%= Checklist.domains.find { |d| d.key == entry[:item].domain }.label_ko %></div>
             <% if entry[:check].memo.present? %>
               <div class="text-sm text-gray-700 mt-1">└ <%= entry[:check].memo %></div>
             <% end %>
