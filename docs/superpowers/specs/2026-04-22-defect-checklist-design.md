@@ -38,7 +38,7 @@ Supersedes: `2026-04-22-couple-scorecard-design.md` (아카이브: `archive/scor
 
 - **기술 스택**: Rails 8.1.x, Hotwire (Turbo + Stimulus), TailwindCSS, Importmap, SQLite + Solid Trifecta, Kamal 2 배포
 - **언어**: 한국어 UI 단일
-- **모바일 우선**: 주 사용 컨텍스트는 방문 현장 스마트폰 (375x667 viewport 기준 테스트)
+- **모바일 우선**: 주 사용 컨텍스트는 방문 현장 스마트폰 (iPhone 14 = 390x844 viewport 기준 테스트, 현행 메인스트림 폰 반영)
 - **네트워크**: 온라인 전용 (오프라인은 v2)
 - **인증**: 익명 소유자 쿠키 (`owner_session_id`) 단일 모델. `User` / `share_token` 없음.
 - **개발 원칙**: TDD (Red-Green-Refactor), Tidy First, Small Commits (CLAUDE.md)
@@ -235,7 +235,7 @@ surround:
 - `InspectionChecksControllerTest`: upsert 동작, Turbo Stream 응답 포맷, 422 on invalid severity, 타인 집 404
 - `SummariesControllerTest`: 빈 집 / 혼합 상태 요약, 타인 집 404
 
-**System (`test/system/`, Capybara 모바일 viewport 375x667):**
+**System (`test/system/`, Capybara 모바일 viewport 390x844 = iPhone 14):**
 - `inspection_flow_test.rb`: 홈 → 집 생성 → 항목 "심각" 선택 → 메모 저장 → 요약에서 확인
 - `house_deletion_test.rb`: 삭제 확인 + 목록에서 사라짐
 - `accessibility_touch_targets_test.rb`: 신호등 버튼 ≥ 44px

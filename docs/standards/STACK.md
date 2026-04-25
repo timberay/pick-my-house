@@ -93,7 +93,7 @@ end
 
 ## UI/Frontend Rules
 
-- **Mobile first**: Designed for the visitor's phone at 375×667. Touch targets ≥ 44×44 px (see `test/system/accessibility_touch_targets_test.rb`).
+- **Mobile first**: Designed for the visitor's phone at 390×844 (iPhone 14 viewport). Touch targets ≥ 44×44 px (see `test/system/accessibility_touch_targets_test.rb`).
 - **Severity color + text**: Never rely on color alone — every severity badge pairs a color with the Korean label (양호/주의/심각). See `app/views/shared/_severity_badge.html.erb`.
 - **Reuse existing partials**: When adding a new section, follow `_domain_section.html.erb` and `_severity_badge.html.erb` for consistency.
 

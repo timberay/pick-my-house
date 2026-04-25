@@ -41,7 +41,7 @@ bin/importmap audit
 
 ```bash
 bin/rails test                              # Unit / request / integration
-bin/rails test:system                       # Capybara + Selenium system tests (mobile viewport 375×667)
+bin/rails test:system                       # Capybara + Selenium system tests (mobile viewport 390×844)
 bin/rails test test/models/foo_test.rb      # Single file
 bin/rails test test/models/foo_test.rb:42   # Single test by line
 ```

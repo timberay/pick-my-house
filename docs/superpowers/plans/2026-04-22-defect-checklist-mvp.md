@@ -52,7 +52,7 @@
 - **Commits:** Every passing test or completed refactor → commit immediately.
 - **UI text:** Korean.
 - **Code/commits:** English.
-- **Tests:** Minitest. System tests use Capybara with mobile viewport 375×667.
+- **Tests:** Minitest. System tests use Capybara with mobile viewport 390×844 (iPhone 14).
 
 ---
 
@@ -1970,7 +1970,7 @@ Open `test/application_system_test_case.rb`. Rails 8 default uses a headless Chr
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :headless_chrome, screen_size: [375, 667]
+  driven_by :selenium, using: :headless_chrome, screen_size: [390, 844]
 end
 ```
 

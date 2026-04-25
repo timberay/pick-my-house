@@ -7,7 +7,7 @@ Testing strategy, security standards, code quality, accessibility, and performan
 ### Framework
 
 - **Unit / request / integration**: Minitest (Rails 8 default)
-- **System tests**: Capybara + Selenium, mobile viewport 375×667 (`test/application_system_test_case.rb`)
+- **System tests**: Capybara + Selenium, mobile viewport 390×844 — iPhone 14 baseline (`test/application_system_test_case.rb`)
 
 ### Test Pyramid (maintain this ratio)
 
