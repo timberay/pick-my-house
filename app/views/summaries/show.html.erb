@@ -6,19 +6,19 @@
 
   <div class="grid grid-cols-4 gap-2 mb-6 text-center">
     <div class="bg-red-50 text-red-700 rounded p-2">
-      <div class="text-xs">심각</div>
+      <div class="text-sm">심각</div>
       <div class="text-xl font-bold"><%= @summary.counts[:severe] %></div>
     </div>
     <div class="bg-yellow-50 text-yellow-700 rounded p-2">
-      <div class="text-xs">주의</div>
+      <div class="text-sm">주의</div>
       <div class="text-xl font-bold"><%= @summary.counts[:warn] %></div>
     </div>
     <div class="bg-green-50 text-green-700 rounded p-2">
-      <div class="text-xs">양호</div>
+      <div class="text-sm">양호</div>
       <div class="text-xl font-bold"><%= @summary.counts[:ok] %></div>
     </div>
     <div class="bg-gray-50 text-gray-700 rounded p-2">
-      <div class="text-xs">미점검</div>
+      <div class="text-sm">미점검</div>
       <div class="text-xl font-bold"><%= @summary.counts[:unchecked] %></div>
     </div>
   </div>
