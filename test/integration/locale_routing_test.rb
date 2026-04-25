@@ -13,6 +13,11 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
     # Phase B5 will add <html lang>; for now just confirm 200.
   end
 
+  test "GET /en/houses sets html lang=en" do
+    get "/en/houses"
+    assert_select "html[lang=?]", "en"
+  end
+
   test "GET /fr/houses returns 404" do
     get "/fr/houses"
     assert_response :not_found
