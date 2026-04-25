@@ -75,6 +75,9 @@ ko:
       visited_at_label: "방문일"
     destroy:
       notice: "삭제되었습니다"
+  shared:
+    domain_progress:
+      progress: "진행 %{rated}/%{total}"
   summaries:
     show:
       title: "%{alias} 요약"

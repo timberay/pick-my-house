@@ -5,11 +5,10 @@
     warn:   "bg-yellow-50 text-yellow-700 ring-yellow-600/20 dark:bg-yellow-900/30 dark:text-yellow-400 dark:ring-yellow-400/20",
     severe: "bg-red-50 text-red-700 ring-red-600/20 dark:bg-red-900/30 dark:text-red-400 dark:ring-red-400/20"
   }
-  labels = { ok: "양호", warn: "주의", severe: "심각" }
   key = severity&.to_sym
 %>
 <% if key %>
   <span class="inline-flex items-center rounded-full px-2.5 py-1 text-sm font-medium ring-1 ring-inset break-keep <%= variants[key] %>">
-    <%= labels[key] %>
+    <%= t("inspection_checks.severity.#{key}") %>
   </span>
 <% end %>
