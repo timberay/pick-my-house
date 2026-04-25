@@ -27,3 +27,66 @@ ko:
       taken: 이미 사용 중입니다
       too_long: 최대 %{count}자까지 가능합니다
       inclusion: 허용되지 않은 값입니다
+  checklist:
+    domains:
+      water:    { label: "수도/배관" }
+      electric: { label: "전기" }
+      mold:     { label: "곰팡이/결로" }
+      windows:  { label: "창호/단열" }
+      smell:    { label: "냄새" }
+      noise:    { label: "소음" }
+      heating:  { label: "난방" }
+      security: { label: "방범/잠금" }
+      finish:   { label: "마감/외관" }
+      surround: { label: "주변환경" }
+    items:
+      water_pressure:     { label: "수압 충분 (샤워기 세게 틀어서)" }
+      hot_water_time:     { label: "온수 30초 내 나옴" }
+      rust_free:          { label: "녹물/이물질 없음" }
+      drain_speed:        { label: "세면대/싱크대 배수 빠름" }
+      balcony_drain:      { label: "베란다 하수구 막힘 없음" }
+      toilet_flush:       { label: "변기 물 내림 정상" }
+      boiler_on_time:     { label: "보일러 온수 대기 시간 합리적" }
+      outlets_working:    { label: "콘센트 작동 (방별 1개 이상 확인)" }
+      breaker_accessible: { label: "메인/누전 차단기 위치 확인 가능" }
+      lights_working:     { label: "조명 모두 작동" }
+      aircon_drain:       { label: "에어컨 배수관 설치 가능 (구멍 있음)" }
+      internet_line:      { label: "인터넷 회선(랜선/벽 단자) 존재" }
+      ceiling_corner:     { label: "안방 천장/벽 모서리 곰팡이 없음" }
+      bath_silicone:      { label: "욕실 천장/실리콘 곰팡이 없음" }
+      window_frame:       { label: "창틀(북향 특히) 결로/곰팡이 흔적 없음" }
+      wallpaper_stain:    { label: "벽지/장판 얼룩·들뜸 없음" }
+      sink_under:         { label: "싱크대 하부 수납장 곰팡이 없음" }
+      balcony_wall:       { label: "베란다 벽 얼룩/결로 흔적 없음" }
+      window_smooth:      { label: "창문 여닫이 부드러움" }
+      window_lock:        { label: "창문 잠금 장치 정상" }
+      window_screen:      { label: "방충망 찢김 없음" }
+      window_draft:       { label: "창문 틈새 외풍 없음" }
+      double_glazing:     { label: "이중창 여부 확인" }
+      indoor_musty:       { label: "실내 곰팡이/쉰내 없음" }
+      drain_sewer:        { label: "배수구/하수구 역류 냄새 없음" }
+      hallway_smell:      { label: "엘베 홀/복도 냄새 없음" }
+      trap_water:         { label: "하수구 트랩 물 고임(S트랩) 있음" }
+      floor_noise:        { label: "층간 소음 (가능하면 저녁 방문)" }
+      road_noise:         { label: "도로 소음 (창문 닫고 체감)" }
+      pipe_noise:         { label: "배관 소리 (이웃 사용 시)" }
+      external_noise:     { label: "주변 공사/철도 소리" }
+      boiler_condition:   { label: "보일러 연식/상태" }
+      heating_type:       { label: "난방 방식 (지역/개별/도시가스)" }
+      winter_cost:        { label: "겨울 난방비 추정치 확인" }
+      floor_heating:      { label: "바닥 난방 작동 (시운전)" }
+      door_lock:          { label: "현관 도어락 정상 (리셋 확인)" }
+      peephole:           { label: "현관 외시경/카메라" }
+      intercom:           { label: "인터폰 영상/음성 정상" }
+      window_guard:       { label: "저층일 경우 창문 방범창" }
+      wallpaper:          { label: "벽지 찢김/얼룩/들뜸" }
+      flooring:           { label: "장판 찢김/들뜸/변색" }
+      tile_grout:         { label: "타일 깨짐/실리콘 마감" }
+      door_hinge:         { label: "문 경첩/손잡이 흔들림 없음" }
+      kitchen_cabinet:    { label: "싱크대 상판/수납 파손 없음" }
+      door_gap:           { label: "방문 틈새/휨 없음" }
+      elevator:           { label: "엘리베이터 속도/소리/청결" }
+      corridor:           { label: "공용 복도 냄새/청결" }
+      garbage:            { label: "쓰레기장 거리/냄새" }
+      parking:            { label: "주차장 자리 확보 여부" }
+      delivery_security:  { label: "택배/경비 시스템" }
