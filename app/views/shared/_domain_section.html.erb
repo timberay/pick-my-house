@@ -6,7 +6,7 @@
 <details class="border rounded mb-2" <%= "open" if domain == Checklist.domains.first %>>
   <summary class="cursor-pointer px-3 py-2 bg-gray-50 flex justify-between">
     <span class="font-medium"><%= domain.label_ko %></span>
-    <span class="text-sm text-gray-600">진행 <%= rated %>/<%= items.size %></span>
+    <%= render "shared/domain_progress", domain: domain, rated: rated %>
   </summary>
   <div class="px-3">
     <% items.each do |item| %>
