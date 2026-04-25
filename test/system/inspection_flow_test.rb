@@ -4,7 +4,7 @@ class InspectionFlowTest < ApplicationSystemTestCase
   test "home -> create house -> rate items -> write memo -> see summary" do
     visit root_path
     assert_text "내 집 목록"
-    click_link "+ 새 집 추가"
+    click_link "새 집 추가"
 
     fill_in "집 별칭 *", with: "신반포 32평"
     click_button "저장"

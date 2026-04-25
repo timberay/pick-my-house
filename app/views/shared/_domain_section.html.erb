@@ -3,10 +3,13 @@
   items = domain.items
   rated = items.count { |i| checks_by_key.key?(i.key) }
 %>
-<details class="border rounded mb-2" <%= "open" if domain == Checklist.domains.first %>>
-  <summary class="cursor-pointer px-3 min-h-11 bg-gray-50 flex items-center justify-between">
-    <span class="font-medium"><%= domain.label_ko %></span>
-    <%= render "shared/domain_progress", domain: domain, rated: rated %>
+<details class="rounded-md border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800" <%= "open" if domain == Checklist.domains.first %>>
+  <summary class="flex min-h-11 cursor-pointer items-center justify-between rounded-md bg-slate-100 px-3 transition-colors hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:bg-slate-700/50 dark:hover:bg-slate-700 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900">
+    <span class="text-base font-medium text-slate-900 dark:text-slate-100 break-keep"><%= domain.label_ko %></span>
+    <span class="flex items-center gap-2">
+      <%= render "shared/domain_progress", domain: domain, rated: rated %>
+      <%= icon "chevron-down", library: "heroicons", variant: "outline", class: "w-4 h-4 text-slate-400 dark:text-slate-500" %>
+    </span>
   </summary>
   <div class="px-3">
     <% items.each do |item| %>

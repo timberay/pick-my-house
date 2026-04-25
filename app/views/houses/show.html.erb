@@ -1,20 +1,27 @@
 <% content_for :title, @house.alias %>
 
-<div class="mx-auto max-w-md p-4">
-  <div class="flex justify-between items-center mb-4">
-    <%= link_to "← 홈", root_path, class: "text-blue-600 text-sm" %>
-    <%= link_to "요약 보기", house_summary_path(@house),
-        class: "text-sm text-blue-600" %>
-  </div>
+<div class="mb-4 flex items-center justify-between gap-2">
+  <%= render "shared/back_link", to: root_path, label: "홈으로" %>
+  <%= link_to house_summary_path(@house),
+      class: "inline-flex h-8 items-center gap-1 rounded-md text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-blue-400 dark:hover:text-blue-300 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900 break-keep" do %>
+    <span>요약 보기</span>
+    <%= icon "chevron-right", library: "heroicons", variant: "outline", class: "w-4 h-4" %>
+  <% end %>
+</div>
 
-  <h1 class="text-2xl font-semibold mb-4"><%= @house.alias %></h1>
+<h1 class="mb-4 text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep"><%= @house.alias %></h1>
 
+<div class="space-y-2">
   <% @domains.each do |domain| %>
     <%= render "shared/domain_section",
                house: @house, domain: domain, checks_by_key: @checks_by_key %>
   <% end %>
+</div>
 
-  <div class="mt-6">
-    <%= link_to "편집", edit_house_path(@house), class: "text-sm text-gray-600 underline" %>
-  </div>
+<div class="mt-6">
+  <%= link_to edit_house_path(@house),
+      class: "inline-flex h-8 items-center gap-1 rounded-md text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-200 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900 break-keep" do %>
+    <%= icon "pencil-square", library: "heroicons", variant: "outline", class: "w-4 h-4" %>
+    <span>편집</span>
+  <% end %>
 </div>

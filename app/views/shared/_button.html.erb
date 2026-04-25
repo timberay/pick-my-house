@@ -1,0 +1,37 @@
+<%#
+  Locals:
+    label:      String — visible button text (required unless icon_only)
+    icon:       Heroicon name (e.g., "plus") — required for action buttons per design rules
+    variant:    :primary | :secondary | :outline | :danger | :danger_outline | :ghost (default :primary)
+    size:       :sm | :md | :lg (default :md)
+    type:       HTML type ("button" | "submit"), default "submit" inside forms via caller
+    full_width: bool (default false)
+    name:       form input name (optional)
+    value:      form input value (optional)
+    aria_label: required when icon_only
+    icon_only:  bool — render icon without label (uses aria_label)
+    data:       hash of data attrs (optional)
+%>
+<%
+  type        ||= "button"
+  variant     ||= :primary
+  size        ||= :md
+  full_width  = local_assigns.fetch(:full_width, false)
+  icon_only   = local_assigns.fetch(:icon_only, false)
+  data_attrs  = local_assigns.fetch(:data, {})
+  icon_size   = size.to_sym == :sm ? "w-4 h-4" : "w-5 h-5"
+  classes     = ui_button_classes(variant: variant, size: size, full_width: full_width)
+%>
+<button type="<%= type %>"
+        class="<%= classes %>"
+        <%= "name=\"#{name}\"".html_safe if local_assigns[:name] %>
+        <%= "value=\"#{value}\"".html_safe if local_assigns[:value] %>
+        <%= "aria-label=\"#{local_assigns[:aria_label]}\"".html_safe if local_assigns[:aria_label] %>
+        <% data_attrs.each do |k, v| %>data-<%= k.to_s.dasherize %>="<%= v %>"<% end %>>
+  <% if local_assigns[:icon] %>
+    <%= icon local_assigns[:icon], library: "heroicons", variant: "outline", class: icon_size %>
+  <% end %>
+  <% unless icon_only %>
+    <span><%= local_assigns[:label] %></span>
+  <% end %>
+</button>

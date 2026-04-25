@@ -1,0 +1,43 @@
+<%#
+  Locals:
+    form:        FormBuilder
+    field:       Symbol attribute name
+    label:       String visible label (required text — no asterisk auto-injection here)
+    type:        :text | :date | :email | :tel  (default :text)
+    placeholder: String (optional)
+    required:    bool (default false; appends red asterisk in label)
+    maxlength:   Integer (optional)
+    size:        :sm | :md | :lg (default :md)
+    help:        String (optional, rendered below input)
+%>
+<%
+  type        = local_assigns.fetch(:type, :text)
+  required    = local_assigns.fetch(:required, false)
+  size        = local_assigns.fetch(:size, :md)
+  has_error   = form.object && form.object.errors[field].any?
+  input_class = ui_input_classes(size: size, error: has_error)
+  field_opts  = { class: input_class, required: required }
+  field_opts[:placeholder] = local_assigns[:placeholder] if local_assigns[:placeholder]
+  field_opts[:maxlength]   = local_assigns[:maxlength]   if local_assigns[:maxlength]
+%>
+<div>
+  <%= form.label field, class: ui_label_classes do %>
+    <%= label %>
+    <% if required %><span class="text-red-500 ml-0.5" aria-hidden="true">*</span><% end %>
+  <% end %>
+
+  <% case type
+     when :date %>
+       <%= form.date_field field, **field_opts %>
+  <% when :email %>
+       <%= form.email_field field, **field_opts %>
+  <% when :tel %>
+       <%= form.telephone_field field, **field_opts %>
+  <% else %>
+       <%= form.text_field field, **field_opts %>
+  <% end %>
+
+  <% if local_assigns[:help] %>
+    <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400 break-keep"><%= help %></p>
+  <% end %>
+</div>

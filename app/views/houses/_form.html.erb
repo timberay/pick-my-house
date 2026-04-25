@@ -1,34 +1,30 @@
-<%= form_with(model: house, class: "space-y-4") do |f| %>
+<%= form_with(model: house, class: "space-y-5") do |f| %>
   <% if house.errors.any? %>
-    <div class="bg-red-50 border border-red-200 rounded p-3 text-sm text-red-700">
+    <div class="rounded-md border border-red-400 bg-red-100 p-3 text-sm text-red-800 dark:border-red-500 dark:bg-red-900/30 dark:text-red-300 break-keep" role="alert">
       <% house.errors.full_messages.each do |msg| %>
         <div><%= msg %></div>
       <% end %>
     </div>
   <% end %>
 
-  <div>
-    <%= f.label :alias, "집 별칭 *", class: "block text-sm font-medium mb-1" %>
-    <%= f.text_field :alias, required: true, maxlength: 50,
-        class: "w-full border rounded px-3 py-2",
+  <%= render "shared/text_input", form: f, field: :alias,
+        label: "집 별칭", required: true, maxlength: 50,
         placeholder: "예: 신반포 32평" %>
-  </div>
 
-  <div>
-    <%= f.label :address, "주소", class: "block text-sm font-medium mb-1" %>
-    <%= f.text_field :address, class: "w-full border rounded px-3 py-2" %>
-  </div>
+  <%= render "shared/text_input", form: f, field: :address,
+        label: "주소" %>
 
-  <div>
-    <%= f.label :agent_contact, "중개인 (이름/전화)", class: "block text-sm font-medium mb-1" %>
-    <%= f.text_field :agent_contact, class: "w-full border rounded px-3 py-2" %>
-  </div>
+  <%= render "shared/text_input", form: f, field: :agent_contact,
+        label: "중개인 (이름/전화)" %>
 
-  <div>
-    <%= f.label :visited_at, "방문일", class: "block text-sm font-medium mb-1" %>
-    <%= f.date_field :visited_at, value: house.visited_at || Date.current,
-        class: "w-full border rounded px-3 py-2" %>
-  </div>
+  <% f.object.visited_at ||= Date.current %>
+  <%= render "shared/text_input", form: f, field: :visited_at,
+        label: "방문일", type: :date %>
 
-  <%= f.submit "저장", class: "w-full bg-blue-600 text-white py-3 rounded text-lg" %>
+  <div class="border-t border-slate-200 pt-5 dark:border-slate-700">
+    <button type="submit" class="<%= ui_button_classes(variant: :primary, size: :md, full_width: true) %>">
+      <%= icon "check", library: "heroicons", variant: "outline", class: "w-5 h-5" %>
+      <span>저장</span>
+    </button>
+  </div>
 <% end %>

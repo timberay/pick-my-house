@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" class="h-full">
   <head>
     <title><%= content_for(:title) || "Pick My House" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -18,14 +18,31 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css">
+
+    <%# No-flash dark-mode boot: applied before stylesheet renders. %>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("dark-mode");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var enableDark = stored === null ? prefersDark : stored === "true";
+          if (enableDark) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
+
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-6 px-5">
+  <body class="flex min-h-full flex-col bg-slate-50 pt-14 font-sans text-slate-900 antialiased break-keep dark:bg-slate-900 dark:text-slate-100">
+    <%= render "layouts/header" %>
+
+    <main class="flex-1 px-4 py-4 md:px-6 md:py-6">
       <%= yield %>
     </main>
+
+    <%= render "layouts/footer" %>
   </body>
 </html>

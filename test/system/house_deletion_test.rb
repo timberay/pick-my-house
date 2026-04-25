@@ -3,7 +3,7 @@ require "application_system_test_case"
 class HouseDeletionTest < ApplicationSystemTestCase
   test "delete house from edit screen with confirmation" do
     visit root_path
-    click_link "+ 새 집 추가"
+    click_link "새 집 추가"
     fill_in "집 별칭 *", with: "사라질 집"
     click_button "저장"
 

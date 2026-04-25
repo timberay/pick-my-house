@@ -9,7 +9,7 @@ class KoreanValidationMessagesTest < ApplicationSystemTestCase
     JS
     click_button "저장"
 
-    error_text = find(".bg-red-50").text
+    error_text = find("[role='alert']").text
     assert_no_match(/[A-Za-z]/, error_text,
       "validation error should be Korean only, got: #{error_text.inspect}")
     assert_match(/별칭/, error_text,

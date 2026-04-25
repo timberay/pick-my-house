@@ -1,32 +1,39 @@
 <% content_for :title, "집 목록" %>
 
-<div class="mx-auto max-w-md p-4">
-  <h1 class="text-2xl font-semibold mb-4">내 집 목록</h1>
-
-  <% if @houses.empty? %>
-    <p class="text-gray-500 mb-6">저장된 집이 없습니다. 아래 버튼으로 추가하세요.</p>
-  <% else %>
-    <ul class="space-y-3 mb-6">
-      <% @houses.each do |house| %>
-        <li class="border rounded p-3">
-          <%= link_to house_path(house), class: "block" do %>
-            <div class="font-medium text-lg"><%= house.alias %></div>
-            <% summary = HouseSummary.for(house) %>
-            <div class="text-sm mt-1">
-              <span class="<%= summary.counts[:severe].positive? ? 'text-red-700 font-medium' : 'text-gray-500' %>">심각 <%= summary.counts[:severe] %></span>
-              <span class="text-gray-400">·</span>
-              <span class="<%= summary.counts[:warn].positive? ? 'text-yellow-700' : 'text-gray-500' %>">주의 <%= summary.counts[:warn] %></span>
-              <span class="text-gray-400">·</span>
-              <span class="text-gray-600">양호 <%= summary.counts[:ok] %></span>
-              <span class="text-gray-400">·</span>
-              <span class="text-gray-500">미점검 <%= summary.counts[:unchecked] %></span>
-            </div>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-
-  <%= link_to "+ 새 집 추가", new_house_path,
-      class: "block w-full text-center bg-blue-600 text-white py-3 rounded text-lg" %>
+<div class="mb-6">
+  <h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep">내 집 목록</h1>
 </div>
+
+<% if @houses.empty? %>
+  <div class="flex flex-col items-center justify-center rounded-lg border border-slate-200 bg-white py-16 px-4 text-center dark:border-slate-700 dark:bg-slate-800">
+    <%= icon "home", library: "heroicons", variant: "outline", class: "w-12 h-12 text-slate-300 dark:text-slate-600 mb-4" %>
+    <p class="text-base text-slate-700 dark:text-slate-300 mb-1 break-keep">저장된 집이 없습니다.</p>
+    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 break-keep">아래 버튼으로 첫 집을 추가해 점검을 시작하세요.</p>
+  </div>
+<% else %>
+  <ul class="mb-6 space-y-3">
+    <% @houses.each do |house| %>
+      <li>
+        <%= link_to house_path(house),
+            class: "block rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700/50 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900" do %>
+          <div class="text-base font-medium text-slate-900 dark:text-slate-100 break-keep"><%= house.alias %></div>
+          <% summary = HouseSummary.for(house) %>
+          <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+            <span class="<%= summary.counts[:severe].positive? ? 'font-semibold text-red-700 dark:text-red-400' : 'text-slate-400 dark:text-slate-500' %>">심각 <%= summary.counts[:severe] %></span>
+            <span class="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
+            <span class="<%= summary.counts[:warn].positive? ? 'font-medium text-yellow-700 dark:text-yellow-400' : 'text-slate-400 dark:text-slate-500' %>">주의 <%= summary.counts[:warn] %></span>
+            <span class="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
+            <span class="text-slate-600 dark:text-slate-400">양호 <%= summary.counts[:ok] %></span>
+            <span class="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
+            <span class="text-slate-400 dark:text-slate-500">미점검 <%= summary.counts[:unchecked] %></span>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= link_to new_house_path, class: ui_button_classes(variant: :primary, size: :md, full_width: true) do %>
+  <%= icon "plus", library: "heroicons", variant: "outline", class: "w-5 h-5" %>
+  <span>새 집 추가</span>
+<% end %>

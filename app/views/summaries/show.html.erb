@@ -1,81 +1,91 @@
 <% content_for :title, "#{@house.alias} 요약" %>
 
-<div class="mx-auto max-w-md p-4">
-  <%= link_to "← 점검 화면", @house, class: "text-blue-600 text-sm" %>
-  <h1 class="text-2xl font-semibold mt-2 mb-4"><%= @house.alias %> 요약</h1>
+<%= render "shared/back_link", to: @house, label: "점검 화면으로" %>
+<h1 class="mt-2 mb-4 text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep"><%= @house.alias %> 요약</h1>
 
-  <div class="grid grid-cols-4 gap-2 mb-6 text-center">
-    <div class="bg-red-50 text-red-700 rounded p-2">
-      <div class="text-sm">심각</div>
-      <div class="text-xl font-bold"><%= @summary.counts[:severe] %></div>
-    </div>
-    <div class="bg-yellow-50 text-yellow-700 rounded p-2">
-      <div class="text-sm">주의</div>
-      <div class="text-xl font-bold"><%= @summary.counts[:warn] %></div>
-    </div>
-    <div class="bg-green-50 text-green-700 rounded p-2">
-      <div class="text-sm">양호</div>
-      <div class="text-xl font-bold"><%= @summary.counts[:ok] %></div>
-    </div>
-    <div class="bg-gray-50 text-gray-700 rounded p-2">
-      <div class="text-sm">미점검</div>
-      <div class="text-xl font-bold"><%= @summary.counts[:unchecked] %></div>
-    </div>
+<div class="mb-6 grid grid-cols-2 gap-2 sm:grid-cols-4">
+  <div class="rounded-lg border border-red-400 bg-red-100 p-3 text-center dark:border-red-500/50 dark:bg-red-900/30">
+    <div class="text-sm font-medium text-red-800 dark:text-red-300">심각</div>
+    <div class="mt-1 text-xl font-bold text-red-800 dark:text-red-300 tabular-nums"><%= @summary.counts[:severe] %></div>
   </div>
-
-  <% if @summary.severe_items.any? %>
-    <section class="mb-6">
-      <h2 class="font-semibold text-red-700 mb-2">심각 (<%= @summary.severe_items.size %>)</h2>
-      <ul class="space-y-2">
-        <% @summary.severe_items.each do |entry| %>
-          <li class="border-l-4 border-red-500 pl-3 py-1">
-            <div class="font-medium"><%= entry[:item].label_ko %></div>
-            <div class="text-xs text-gray-500"><%= Checklist.domains.find { |d| d.key == entry[:item].domain }.label_ko %></div>
-            <% if entry[:check].memo.present? %>
-              <div class="text-sm text-gray-700 mt-1">└ <%= entry[:check].memo %></div>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </section>
-  <% end %>
-
-  <% if @summary.warn_items.any? %>
-    <section class="mb-6">
-      <h2 class="font-semibold text-yellow-700 mb-2">주의 (<%= @summary.warn_items.size %>)</h2>
-      <ul class="space-y-2">
-        <% @summary.warn_items.each do |entry| %>
-          <li class="border-l-4 border-yellow-500 pl-3 py-1">
-            <div class="font-medium"><%= entry[:item].label_ko %></div>
-            <div class="text-xs text-gray-500"><%= Checklist.domains.find { |d| d.key == entry[:item].domain }.label_ko %></div>
-            <% if entry[:check].memo.present? %>
-              <div class="text-sm text-gray-700 mt-1">└ <%= entry[:check].memo %></div>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </section>
-  <% end %>
-
-  <% if @summary.unchecked_items.any? %>
-    <details class="mb-6">
-      <summary class="cursor-pointer text-gray-600">미점검 항목 펼치기 (<%= @summary.unchecked_items.size %>)</summary>
-      <ul class="mt-2 space-y-1 text-sm text-gray-700">
-        <% @summary.unchecked_items.each do |item| %>
-          <li>▸ <%= item.label_ko %></li>
-        <% end %>
-      </ul>
-    </details>
-  <% end %>
-
-  <% if @summary.deleted_items.any? %>
-    <details class="mb-6">
-      <summary class="cursor-pointer text-gray-500">삭제된 항목 (<%= @summary.deleted_items.size %>)</summary>
-      <ul class="mt-2 space-y-1 text-xs text-gray-600">
-        <% @summary.deleted_items.each do |check| %>
-          <li>▸ <%= check.item_key %></li>
-        <% end %>
-      </ul>
-    </details>
-  <% end %>
+  <div class="rounded-lg border border-yellow-400 bg-yellow-100 p-3 text-center dark:border-yellow-500/50 dark:bg-yellow-900/30">
+    <div class="text-sm font-medium text-yellow-900 dark:text-yellow-300">주의</div>
+    <div class="mt-1 text-xl font-bold text-yellow-900 dark:text-yellow-300 tabular-nums"><%= @summary.counts[:warn] %></div>
+  </div>
+  <div class="rounded-lg border border-green-400 bg-green-100 p-3 text-center dark:border-green-500/50 dark:bg-green-900/30">
+    <div class="text-sm font-medium text-green-800 dark:text-green-300">양호</div>
+    <div class="mt-1 text-xl font-bold text-green-800 dark:text-green-300 tabular-nums"><%= @summary.counts[:ok] %></div>
+  </div>
+  <div class="rounded-lg border border-slate-300 bg-slate-100 p-3 text-center dark:border-slate-700 dark:bg-slate-800">
+    <div class="text-sm font-medium text-slate-700 dark:text-slate-300">미점검</div>
+    <div class="mt-1 text-xl font-bold text-slate-700 dark:text-slate-300 tabular-nums"><%= @summary.counts[:unchecked] %></div>
+  </div>
 </div>
+
+<% if @summary.severe_items.any? %>
+  <section class="mb-6">
+    <h2 class="mb-2 text-base font-semibold text-red-700 dark:text-red-400 break-keep">심각 (<%= @summary.severe_items.size %>)</h2>
+    <ul class="space-y-2">
+      <% @summary.severe_items.each do |entry| %>
+        <li class="border-l-4 border-red-500 pl-3 py-1 dark:border-red-400">
+          <div class="text-base font-medium text-slate-900 dark:text-slate-100 break-keep"><%= entry[:item].label_ko %></div>
+          <div class="text-sm text-slate-400 dark:text-slate-500 break-keep"><%= Checklist.domains.find { |d| d.key == entry[:item].domain }.label_ko %></div>
+          <% if entry[:check].memo.present? %>
+            <div class="mt-1 text-sm text-slate-700 dark:text-slate-300 break-keep">└ <%= entry[:check].memo %></div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
+
+<% if @summary.warn_items.any? %>
+  <section class="mb-6">
+    <h2 class="mb-2 text-base font-semibold text-yellow-700 dark:text-yellow-400 break-keep">주의 (<%= @summary.warn_items.size %>)</h2>
+    <ul class="space-y-2">
+      <% @summary.warn_items.each do |entry| %>
+        <li class="border-l-4 border-yellow-500 pl-3 py-1 dark:border-yellow-400">
+          <div class="text-base font-medium text-slate-900 dark:text-slate-100 break-keep"><%= entry[:item].label_ko %></div>
+          <div class="text-sm text-slate-400 dark:text-slate-500 break-keep"><%= Checklist.domains.find { |d| d.key == entry[:item].domain }.label_ko %></div>
+          <% if entry[:check].memo.present? %>
+            <div class="mt-1 text-sm text-slate-700 dark:text-slate-300 break-keep">└ <%= entry[:check].memo %></div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
+
+<% if @summary.unchecked_items.any? %>
+  <details class="mb-6 rounded-md border border-slate-200 dark:border-slate-700">
+    <summary class="flex min-h-11 cursor-pointer items-center justify-between gap-2 rounded-md px-3 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-slate-400 dark:hover:bg-slate-800 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900 break-keep">
+      <span>미점검 항목 펼치기 (<%= @summary.unchecked_items.size %>)</span>
+      <%= icon "chevron-down", library: "heroicons", variant: "outline", class: "w-4 h-4" %>
+    </summary>
+    <ul class="space-y-1 px-3 py-2 text-sm text-slate-700 dark:text-slate-300">
+      <% @summary.unchecked_items.each do |item| %>
+        <li class="flex items-center gap-2 break-keep">
+          <%= icon "chevron-right", library: "heroicons", variant: "outline", class: "w-4 h-4 text-slate-400 dark:text-slate-500 flex-shrink-0" %>
+          <span><%= item.label_ko %></span>
+        </li>
+      <% end %>
+    </ul>
+  </details>
+<% end %>
+
+<% if @summary.deleted_items.any? %>
+  <details class="mb-6 rounded-md border border-slate-200 dark:border-slate-700">
+    <summary class="flex min-h-11 cursor-pointer items-center justify-between gap-2 rounded-md px-3 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-slate-500 dark:hover:bg-slate-800 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900 break-keep">
+      <span>삭제된 항목 (<%= @summary.deleted_items.size %>)</span>
+      <%= icon "chevron-down", library: "heroicons", variant: "outline", class: "w-4 h-4" %>
+    </summary>
+    <ul class="space-y-1 px-3 py-2 text-sm text-slate-500 dark:text-slate-500">
+      <% @summary.deleted_items.each do |check| %>
+        <li class="flex items-center gap-2 break-keep">
+          <%= icon "chevron-right", library: "heroicons", variant: "outline", class: "w-4 h-4 text-slate-400 dark:text-slate-600 flex-shrink-0" %>
+          <span><%= check.item_key %></span>
+        </li>
+      <% end %>
+    </ul>
+  </details>
+<% end %>
