@@ -96,7 +96,7 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :redirect
-    assert_includes response.location, "/"
+    assert_equal "/", URI(response.location).path
   end
 
   test "DELETE /houses/:id for other owner returns 404" do
