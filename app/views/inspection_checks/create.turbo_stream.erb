@@ -1,6 +1,14 @@
+<%
+  item = Checklist.item(@check.item_key)
+  domain = Checklist.domains.find { |d| d.key == item.domain }
+  rated = @house.inspection_checks.where(item_key: domain.items.map(&:key)).count
+%>
 <%= turbo_stream.replace "check-row-#{@check.item_key}" do %>
   <%= render "inspection_checks/check_row",
              house: @house,
-             item: Checklist.item(@check.item_key),
+             item: item,
              check: @check %>
+<% end %>
+<%= turbo_stream.replace "domain-progress-#{domain.key}" do %>
+  <%= render "shared/domain_progress", domain: domain, rated: rated %>
 <% end %>

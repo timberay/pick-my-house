@@ -23,6 +23,17 @@ class InspectionChecksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "water_pressure", check.item_key
   end
 
+  test "Turbo Stream response replaces both the row and the domain progress" do
+    post house_checks_path(@house),
+         params: { item_key: "water_pressure", severity: "severe" },
+         as: :turbo_stream
+    assert_response :success
+    body = response.body
+    assert_match(/<turbo-stream[^>]+action="replace"[^>]+target="check-row-water_pressure"/, body)
+    assert_match(/<turbo-stream[^>]+action="replace"[^>]+target="domain-progress-water"/, body)
+    assert_match(/진행 1\/7/, body)
+  end
+
   test "POST /houses/:id/checks upserts severity (update path, same item_key)" do
     @house.inspection_checks.create!(item_key: "rust_free", severity: :ok)
     assert_no_difference -> { InspectionCheck.count } do
