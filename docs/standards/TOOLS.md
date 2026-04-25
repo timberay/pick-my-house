@@ -74,6 +74,7 @@ bin/jobs                     # Start Solid Queue worker (Rails 8 default)
 bin/kamal setup              # Initial server provisioning
 bin/kamal deploy             # Zero-downtime deployment
 bin/kamal app logs           # View application logs
+bin/backup-sqlite <dir>      # Online SQLite backup of all 4 production DBs (primary/cache/queue/cable) with gzip + 14-day retention
 ```
 
 ## Environment Configuration
