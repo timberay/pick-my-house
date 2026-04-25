@@ -57,4 +57,12 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
     assert_match "My Houses", response.body
     assert_match "All inspection records are stored on this device.", response.body
   end
+
+  test "GET /ko/houses includes the locale switcher with English link" do
+    get "/ko/houses"
+    assert_response :success
+    assert_match "한국어", response.body
+    assert_match "English", response.body
+    assert_match %r{href="/en/houses"}, response.body
+  end
 end
