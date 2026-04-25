@@ -28,8 +28,8 @@
     <ul class="space-y-2">
       <% @summary.severe_items.each do |entry| %>
         <li class="border-l-4 border-red-500 pl-3 py-1 dark:border-red-400">
-          <div class="text-base font-medium text-slate-900 dark:text-slate-100 break-keep"><%= entry[:item].label_ko %></div>
-          <div class="text-sm text-slate-400 dark:text-slate-500 break-keep"><%= Checklist.domains.find { |d| d.key == entry[:item].domain }.label_ko %></div>
+          <div class="text-base font-medium text-slate-900 dark:text-slate-100 break-keep"><%= item_label(entry[:item]) %></div>
+          <div class="text-sm text-slate-400 dark:text-slate-500 break-keep"><%= domain_label(Checklist.domains.find { |d| d.key == entry[:item].domain }) %></div>
           <% if entry[:check].memo.present? %>
             <div class="mt-1 text-sm text-slate-700 dark:text-slate-300 break-keep">└ <%= entry[:check].memo %></div>
           <% end %>
@@ -45,8 +45,8 @@
     <ul class="space-y-2">
       <% @summary.warn_items.each do |entry| %>
         <li class="border-l-4 border-yellow-500 pl-3 py-1 dark:border-yellow-400">
-          <div class="text-base font-medium text-slate-900 dark:text-slate-100 break-keep"><%= entry[:item].label_ko %></div>
-          <div class="text-sm text-slate-400 dark:text-slate-500 break-keep"><%= Checklist.domains.find { |d| d.key == entry[:item].domain }.label_ko %></div>
+          <div class="text-base font-medium text-slate-900 dark:text-slate-100 break-keep"><%= item_label(entry[:item]) %></div>
+          <div class="text-sm text-slate-400 dark:text-slate-500 break-keep"><%= domain_label(Checklist.domains.find { |d| d.key == entry[:item].domain }) %></div>
           <% if entry[:check].memo.present? %>
             <div class="mt-1 text-sm text-slate-700 dark:text-slate-300 break-keep">└ <%= entry[:check].memo %></div>
           <% end %>
@@ -66,7 +66,7 @@
       <% @summary.unchecked_items.each do |item| %>
         <li class="flex items-center gap-2 break-keep">
           <%= icon "chevron-right", library: "heroicons", variant: "outline", class: "w-4 h-4 text-slate-400 dark:text-slate-500 flex-shrink-0" %>
-          <span><%= item.label_ko %></span>
+          <span><%= item_label(item) %></span>
         </li>
       <% end %>
     </ul>
