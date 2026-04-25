@@ -27,6 +27,14 @@ ko:
       taken: 이미 사용 중입니다
       too_long: 최대 %{count}자까지 가능합니다
       inclusion: 허용되지 않은 값입니다
+  layout:
+    app_name: "Pick My House"
+    dark_mode_toggle: "다크 모드 전환"
+    footer:
+      disclaimer: "모든 점검 기록은 이 기기에 저장됩니다."
+    locale_switcher:
+      ko: "한국어"
+      en: "English"
   checklist:
     domains:
       water:    { label: "수도/배관" }

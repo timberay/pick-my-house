@@ -3,13 +3,13 @@
     <%= link_to root_path,
         class: "flex items-center gap-2 rounded-md text-base font-bold text-slate-900 transition-colors hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-slate-100 dark:hover:text-blue-400 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900" do %>
       <%= icon "home", library: "heroicons", variant: "outline", class: "w-5 h-5" %>
-      <span>Pick My House</span>
+      <span><%= t("layout.app_name") %></span>
     <% end %>
 
     <button type="button"
             data-controller="dark-mode"
             data-action="click->dark-mode#toggle"
-            aria-label="다크 모드 전환"
+            aria-label="<%= t("layout.dark_mode_toggle") %>"
             class="inline-flex h-10 w-10 items-center justify-center rounded-md text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900">
       <span data-dark-mode-target="sunIcon" class="hidden">
         <%= icon "sun", library: "heroicons", variant: "outline", class: "w-5 h-5" %>
