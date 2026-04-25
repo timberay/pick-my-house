@@ -51,7 +51,7 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_match "Inspection subject", @response.body
     Checklist.domains.each do |d|
-      assert_match d.label_ko, @response.body
+      assert_match I18n.t("checklist.domains.#{d.key}.label"), @response.body
     end
   end
 

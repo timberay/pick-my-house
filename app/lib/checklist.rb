@@ -2,8 +2,8 @@ require "yaml"
 require "set"
 
 module Checklist
-  Domain = Struct.new(:key, :label_ko, :items, keyword_init: true)
-  Item = Struct.new(:key, :domain, :label_ko, keyword_init: true)
+  Domain = Struct.new(:key, :items, keyword_init: true)
+  Item   = Struct.new(:key, :domain, keyword_init: true)
 
   class Error < StandardError; end
 
@@ -46,14 +46,14 @@ module Checklist
       raise Error, "checklist.yml must be a hash" unless raw.is_a?(Hash)
 
       raw.map do |domain_key, payload|
-        unless payload.is_a?(Hash) && payload["items"].is_a?(Hash)
-          raise Error, "domain '#{domain_key}' is missing items hash"
+        unless payload.is_a?(Hash) && payload["items"].is_a?(Array)
+          raise Error, "domain '#{domain_key}' is missing items array"
         end
 
-        items = payload["items"].map do |item_key, attrs|
-          Item.new(key: item_key, domain: domain_key, label_ko: attrs.fetch("label_ko"))
+        items = payload["items"].map do |item_key|
+          Item.new(key: item_key, domain: domain_key)
         end
-        Domain.new(key: domain_key, label_ko: payload.fetch("label_ko"), items: items)
+        Domain.new(key: domain_key, items: items)
       end
     end
   end
