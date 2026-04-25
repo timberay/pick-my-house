@@ -18,7 +18,12 @@ module Localized
       accept_language: request.headers["Accept-Language"]
     )
     if locale.to_s != cookies[:locale]
-      cookies[:locale] = { value: locale.to_s, expires: 1.year.from_now }
+      cookies[:locale] = {
+        value: locale.to_s,
+        expires: 1.year.from_now,
+        httponly: true,
+        same_site: :lax
+      }
     end
     I18n.with_locale(locale, &action)
   end
