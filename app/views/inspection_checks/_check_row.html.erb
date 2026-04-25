@@ -13,7 +13,7 @@
                   class: "flex gap-1" do |f| %>
       <%= f.hidden_field :item_key, value: item.key %>
       <% %w[ok warn severe].each do |level| %>
-        <% label = { "ok" => "양호", "warn" => "주의", "severe" => "심각" }[level] %>
+        <% label = t("inspection_checks.severity.#{level}") %>
         <% pressed = current == level %>
         <button type="submit"
                 name="severity"
@@ -32,18 +32,18 @@
       <details class="text-sm">
         <summary class="inline-flex min-h-11 cursor-pointer items-center gap-1 rounded-md text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-blue-400 dark:hover:text-blue-300 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900 break-keep">
           <%= icon "pencil", library: "heroicons", variant: "outline", class: "w-4 h-4" %>
-          <span>메모 <%= check.memo.present? ? "수정" : "추가" %></span>
+          <span><%= check.memo.present? ? t("inspection_checks.check_row.memo_edit") : t("inspection_checks.check_row.memo_add") %></span>
         </summary>
         <%= form_with url: house_checks_path(house), method: :post,
                       data: { turbo_stream: true }, class: "mt-2 flex items-center gap-2" do |f| %>
           <%= f.hidden_field :item_key, value: item.key %>
           <%= f.hidden_field :severity, value: check.severity %>
           <%= f.text_field :memo, value: check.memo, maxlength: 500, size: nil,
-              placeholder: "특이사항 한 줄",
+              placeholder: t("inspection_checks.check_row.memo_placeholder"),
               class: ui_input_classes(size: :sm, extra: "flex-1 min-w-0") %>
           <button type="submit" class="<%= ui_button_classes(variant: :secondary, size: :sm) %>">
             <%= icon "check", library: "heroicons", variant: "outline", class: "w-4 h-4" %>
-            <span>저장</span>
+            <span><%= t("common.save") %></span>
           </button>
         <% end %>
         <% if check.memo.present? %>

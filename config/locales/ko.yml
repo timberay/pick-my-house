@@ -48,6 +48,10 @@ ko:
       severe: "심각"
     status:
       unchecked: "미점검"
+    check_row:
+      memo_add: "메모 추가"
+      memo_edit: "메모 수정"
+      memo_placeholder: "특이사항 한 줄"
   houses:
     index:
       title: "내 집 목록"
