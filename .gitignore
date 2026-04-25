@@ -39,3 +39,7 @@
 
 # Claude Code runtime state
 /.claude/scheduled_tasks.lock
+
+# Playwright MCP browser session artifacts (interactive demo screenshots, snapshots)
+/.playwright-mcp/
+/demo-*.png
