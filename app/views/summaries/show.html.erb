@@ -1,30 +1,30 @@
-<% content_for :title, "#{@house.alias} 요약" %>
+<% content_for :title, t(".title", alias: @house.alias) %>
 
-<%= render "shared/back_link", to: @house, label: "점검 화면으로" %>
-<h1 class="mt-2 mb-4 text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep"><%= @house.alias %> 요약</h1>
+<%= render "shared/back_link", to: @house, label: t("common.go_inspection") %>
+<h1 class="mt-2 mb-4 text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep"><%= t(".title", alias: @house.alias) %></h1>
 
 <div class="mb-6 grid grid-cols-2 gap-2 sm:grid-cols-4">
   <div class="rounded-lg border border-red-400 bg-red-100 p-3 text-center dark:border-red-500/50 dark:bg-red-900/30">
-    <div class="text-sm font-medium text-red-800 dark:text-red-300">심각</div>
+    <div class="text-sm font-medium text-red-800 dark:text-red-300"><%= t("inspection_checks.severity.severe") %></div>
     <div class="mt-1 text-xl font-bold text-red-800 dark:text-red-300 tabular-nums"><%= @summary.counts[:severe] %></div>
   </div>
   <div class="rounded-lg border border-yellow-400 bg-yellow-100 p-3 text-center dark:border-yellow-500/50 dark:bg-yellow-900/30">
-    <div class="text-sm font-medium text-yellow-900 dark:text-yellow-300">주의</div>
+    <div class="text-sm font-medium text-yellow-900 dark:text-yellow-300"><%= t("inspection_checks.severity.warn") %></div>
     <div class="mt-1 text-xl font-bold text-yellow-900 dark:text-yellow-300 tabular-nums"><%= @summary.counts[:warn] %></div>
   </div>
   <div class="rounded-lg border border-green-400 bg-green-100 p-3 text-center dark:border-green-500/50 dark:bg-green-900/30">
-    <div class="text-sm font-medium text-green-800 dark:text-green-300">양호</div>
+    <div class="text-sm font-medium text-green-800 dark:text-green-300"><%= t("inspection_checks.severity.ok") %></div>
     <div class="mt-1 text-xl font-bold text-green-800 dark:text-green-300 tabular-nums"><%= @summary.counts[:ok] %></div>
   </div>
   <div class="rounded-lg border border-slate-300 bg-slate-100 p-3 text-center dark:border-slate-700 dark:bg-slate-800">
-    <div class="text-sm font-medium text-slate-700 dark:text-slate-300">미점검</div>
+    <div class="text-sm font-medium text-slate-700 dark:text-slate-300"><%= t("inspection_checks.status.unchecked") %></div>
     <div class="mt-1 text-xl font-bold text-slate-700 dark:text-slate-300 tabular-nums"><%= @summary.counts[:unchecked] %></div>
   </div>
 </div>
 
 <% if @summary.severe_items.any? %>
   <section class="mb-6">
-    <h2 class="mb-2 text-base font-semibold text-red-700 dark:text-red-400 break-keep">심각 (<%= @summary.severe_items.size %>)</h2>
+    <h2 class="mb-2 text-base font-semibold text-red-700 dark:text-red-400 break-keep"><%= t(".severe_heading", count: @summary.severe_items.size) %></h2>
     <ul class="space-y-2">
       <% @summary.severe_items.each do |entry| %>
         <li class="border-l-4 border-red-500 pl-3 py-1 dark:border-red-400">
@@ -41,7 +41,7 @@
 
 <% if @summary.warn_items.any? %>
   <section class="mb-6">
-    <h2 class="mb-2 text-base font-semibold text-yellow-700 dark:text-yellow-400 break-keep">주의 (<%= @summary.warn_items.size %>)</h2>
+    <h2 class="mb-2 text-base font-semibold text-yellow-700 dark:text-yellow-400 break-keep"><%= t(".warn_heading", count: @summary.warn_items.size) %></h2>
     <ul class="space-y-2">
       <% @summary.warn_items.each do |entry| %>
         <li class="border-l-4 border-yellow-500 pl-3 py-1 dark:border-yellow-400">
@@ -59,7 +59,7 @@
 <% if @summary.unchecked_items.any? %>
   <details class="mb-6 rounded-md border border-slate-200 dark:border-slate-700">
     <summary class="flex min-h-11 cursor-pointer items-center justify-between gap-2 rounded-md px-3 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-slate-400 dark:hover:bg-slate-800 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900 break-keep">
-      <span>미점검 항목 펼치기 (<%= @summary.unchecked_items.size %>)</span>
+      <span><%= t(".unchecked_expand", count: @summary.unchecked_items.size) %></span>
       <%= icon "chevron-down", library: "heroicons", variant: "outline", class: "w-4 h-4" %>
     </summary>
     <ul class="space-y-1 px-3 py-2 text-sm text-slate-700 dark:text-slate-300">
@@ -76,7 +76,7 @@
 <% if @summary.deleted_items.any? %>
   <details class="mb-6 rounded-md border border-slate-200 dark:border-slate-700">
     <summary class="flex min-h-11 cursor-pointer items-center justify-between gap-2 rounded-md px-3 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 dark:text-slate-500 dark:hover:bg-slate-800 dark:focus-visible:ring-blue-400/50 dark:focus-visible:ring-offset-slate-900 break-keep">
-      <span>삭제된 항목 (<%= @summary.deleted_items.size %>)</span>
+      <span><%= t(".deleted_heading", count: @summary.deleted_items.size) %></span>
       <%= icon "chevron-down", library: "heroicons", variant: "outline", class: "w-4 h-4" %>
     </summary>
     <ul class="space-y-1 px-3 py-2 text-sm text-slate-500 dark:text-slate-500">

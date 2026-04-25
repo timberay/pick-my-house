@@ -75,6 +75,13 @@ ko:
       visited_at_label: "방문일"
     destroy:
       notice: "삭제되었습니다"
+  summaries:
+    show:
+      title: "%{alias} 요약"
+      severe_heading: "심각 (%{count})"
+      warn_heading: "주의 (%{count})"
+      unchecked_expand: "미점검 항목 펼치기 (%{count})"
+      deleted_heading: "삭제된 항목 (%{count})"
   checklist:
     domains:
       water:    { label: "수도/배관" }
