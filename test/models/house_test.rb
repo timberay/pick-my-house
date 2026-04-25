@@ -7,19 +7,19 @@ class HouseTest < ActiveSupport::TestCase
   test "requires alias" do
     h = House.new(owner_session_id: SID_A)
     refute h.valid?
-    assert_includes h.errors[:alias], "can't be blank"
+    assert_includes h.errors[:alias], "집 별칭을 입력해주세요"
   end
 
   test "alias max 50 chars" do
     h = House.new(alias: "x" * 51, owner_session_id: SID_A)
     refute h.valid?
-    assert_includes h.errors[:alias], "is too long (maximum is 50 characters)"
+    assert_includes h.errors[:alias], "집 별칭은 최대 50자까지 가능합니다"
   end
 
   test "requires owner_session_id" do
     h = House.new(alias: "Seoul Flat")
     refute h.valid?
-    assert_includes h.errors[:owner_session_id], "can't be blank"
+    assert_includes h.errors[:owner_session_id], "필수 항목입니다"
   end
 
   test ".owned_by returns only houses for that session" do

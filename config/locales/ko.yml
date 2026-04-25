@@ -1,0 +1,29 @@
+ko:
+  activerecord:
+    models:
+      house: 집
+      inspection_check: 점검 항목
+    attributes:
+      house:
+        alias: 집 별칭
+        address: 주소
+        agent_contact: 중개인
+        visited_at: 방문일
+      inspection_check:
+        item_key: 항목 키
+        severity: 평가
+        memo: 메모
+    errors:
+      models:
+        house:
+          attributes:
+            alias:
+              blank: 집 별칭을 입력해주세요
+              too_long: 집 별칭은 최대 %{count}자까지 가능합니다
+  errors:
+    format: "%{message}"
+    messages:
+      blank: 필수 항목입니다
+      taken: 이미 사용 중입니다
+      too_long: 최대 %{count}자까지 가능합니다
+      inclusion: 허용되지 않은 값입니다
