@@ -1,18 +1,18 @@
-<% content_for :title, "집 편집" %>
+<% content_for :title, t(".title") %>
 
 <div class="mx-auto max-w-2xl">
-  <%= render "shared/back_link", to: @house, label: "점검 화면으로" %>
-  <h1 class="mt-2 mb-4 text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep">집 편집</h1>
+  <%= render "shared/back_link", to: @house, label: t("common.go_inspection") %>
+  <h1 class="mt-2 mb-4 text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep"><%= t(".title") %></h1>
 
   <%= render "form", house: @house %>
 
   <div class="mt-8 border-t border-slate-200 pt-6 dark:border-slate-700">
     <%= button_to house_path(@house),
         method: :delete,
-        form: { data: { turbo_confirm: "정말 삭제할까요? 이 집의 모든 점검 기록이 함께 삭제됩니다." } },
+        form: { data: { turbo_confirm: t(".confirm_destroy") } },
         class: ui_button_classes(variant: :danger_outline, size: :md, full_width: true) do %>
       <%= icon "trash", library: "heroicons", variant: "outline", class: "w-5 h-5" %>
-      <span>이 집 삭제</span>
+      <span><%= t(".destroy") %></span>
     <% end %>
   </div>
 </div>

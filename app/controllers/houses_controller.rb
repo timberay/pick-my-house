@@ -36,7 +36,7 @@ class HousesController < ApplicationController
 
   def destroy
     @house.destroy!
-    redirect_to root_path, notice: "삭제되었습니다"
+    redirect_to root_path, notice: t("houses.destroy.notice")
   end
 
   private

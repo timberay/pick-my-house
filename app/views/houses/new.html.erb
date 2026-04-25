@@ -1,7 +1,7 @@
-<% content_for :title, "새 집 추가" %>
+<% content_for :title, t(".title") %>
 
 <div class="mx-auto max-w-2xl">
-  <%= render "shared/back_link", to: root_path, label: "홈으로" %>
-  <h1 class="mt-2 mb-4 text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep">새 집 추가</h1>
+  <%= render "shared/back_link", to: root_path, label: t("common.go_home") %>
+  <h1 class="mt-2 mb-4 text-2xl font-semibold text-slate-900 dark:text-slate-100 break-keep"><%= t(".title") %></h1>
   <%= render "form", house: @house %>
 </div>

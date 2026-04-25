@@ -8,23 +8,23 @@
   <% end %>
 
   <%= render "shared/text_input", form: f, field: :alias,
-        label: "집 별칭", required: true, maxlength: 50,
-        placeholder: "예: 신반포 32평" %>
+        label: t("houses.form.alias_label"), required: true, maxlength: 50,
+        placeholder: t("houses.form.alias_placeholder") %>
 
   <%= render "shared/text_input", form: f, field: :address,
-        label: "주소" %>
+        label: t("houses.form.address_label") %>
 
   <%= render "shared/text_input", form: f, field: :agent_contact,
-        label: "중개인 (이름/전화)" %>
+        label: t("houses.form.agent_contact_label") %>
 
   <% f.object.visited_at ||= Date.current %>
   <%= render "shared/text_input", form: f, field: :visited_at,
-        label: "방문일", type: :date %>
+        label: t("houses.form.visited_at_label"), type: :date %>
 
   <div class="border-t border-slate-200 pt-5 dark:border-slate-700">
     <button type="submit" class="<%= ui_button_classes(variant: :primary, size: :md, full_width: true) %>">
       <%= icon "check", library: "heroicons", variant: "outline", class: "w-5 h-5" %>
-      <span>저장</span>
+      <span><%= t("common.save") %></span>
     </button>
   </div>
 <% end %>
