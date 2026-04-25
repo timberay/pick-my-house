@@ -2,7 +2,7 @@ require "test_helper"
 
 class SummariesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    get root_path
+    get houses_path
     jar = ActionDispatch::Cookies::CookieJar.build(
       ActionDispatch::TestRequest.create, cookies.to_hash
     )

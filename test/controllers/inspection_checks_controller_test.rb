@@ -2,7 +2,7 @@ require "test_helper"
 
 class InspectionChecksControllerTest < ActionDispatch::IntegrationTest
   setup do
-    get root_path
+    get houses_path
     @sid = cookies[:owner_session_id]
     # Re-resolve signed value through a helper jar
     jar = ActionDispatch::Cookies::CookieJar.build(

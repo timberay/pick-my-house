@@ -13,3 +13,11 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+class ActionDispatch::IntegrationTest
+  # Ensure URL helpers include the locale segment when called outside of a
+  # controller action (e.g. in setup blocks or assertions).
+  def default_url_options
+    { locale: I18n.default_locale }
+  end
+end
