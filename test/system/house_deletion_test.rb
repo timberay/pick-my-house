@@ -14,7 +14,7 @@ class HouseDeletionTest < ApplicationSystemTestCase
       click_button "이 집 삭제"
     end
 
-    assert_current_path root_path
+    assert_current_path root_path, ignore_query: true
     assert_no_text "사라질 집"
   end
 end

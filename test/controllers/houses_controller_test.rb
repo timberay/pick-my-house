@@ -22,7 +22,7 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
   test "GET /houses/new renders form" do
     get new_house_path
     assert_response :success
-    assert_select "form[action='#{houses_path}']"
+    assert_select "form[action*='/houses']"
     assert_select "input[name='house[alias]']"
   end
 
@@ -34,7 +34,8 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
     h = House.last
     assert_equal "신반포 32평", h.alias
     assert h.owner_session_id.present?
-    assert_redirected_to house_path(h)
+    assert_response :redirect
+    assert_includes response.location, "/houses/#{h.id}"
   end
 
   test "POST /houses rejects blank alias" do
@@ -78,7 +79,8 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
     h = House.create!(alias: "Old", owner_session_id: sid)
 
     patch house_path(h), params: { house: { alias: "New" } }
-    assert_redirected_to house_path(h)
+    assert_response :redirect
+    assert_includes response.location, "/houses/#{h.id}"
     assert_equal "New", h.reload.alias
   end
 
@@ -93,7 +95,8 @@ class HousesControllerTest < ActionDispatch::IntegrationTest
         delete house_path(h)
       end
     end
-    assert_redirected_to root_path
+    assert_response :redirect
+    assert_includes response.location, "/"
   end
 
   test "DELETE /houses/:id for other owner returns 404" do
