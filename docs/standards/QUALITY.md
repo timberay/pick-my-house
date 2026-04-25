@@ -6,27 +6,24 @@ Testing strategy, security standards, code quality, accessibility, and performan
 
 ### Framework
 
-- **Unit/Integration**: Minitest (Rails 8 default)
-- **E2E**: Playwright (or System Tests with Capybara/Cuprite)
-- **Performance**: K6
+- **Unit / request / integration**: Minitest (Rails 8 default)
+- **System tests**: Capybara + Selenium, mobile viewport 375×667 (`test/application_system_test_case.rb`)
 
 ### Test Pyramid (maintain this ratio)
 
-- **Unit** (majority): Service Objects, Models, Helpers
-- **Integration** (moderate): Controller + View integration
-- **System/E2E** (few): Major user scenarios only
+- **Unit** (majority): Models, POROs in `app/lib/`, helpers
+- **Request / Integration** (moderate): Controller behavior, rate-limit integration
+- **System** (few): Major user scenarios only — currently inspection flow, deletion, touch targets
 
 ### Test Coverage
 
-- Target minimum **80%** coverage with SimpleCov
 - Every new feature must include corresponding tests
 - Bug fixes must include a regression test
 
 ## Code Style
 
-- **Ruby**: Standard (rubocop-rails-omakase)
-- **JavaScript**: Prettier / StandardJS
-- **CSS**: Tailwind utility classes or BEM if custom CSS
+- **Ruby**: rubocop-rails-omakase (`bin/rubocop`, auto-fix with `-a`)
+- **CSS**: Tailwind utility classes; avoid hand-written CSS
 
 ## Security Best Practices
 
@@ -57,7 +54,7 @@ params.fetch(:page, 1)
 
 ### Rate Limiting
 
-Limit API requests with `Rack::Attack`.
+`Rack::Attack` is configured in `config/initializers/rack_attack.rb`. The MVP throttles every write endpoint (POST/PATCH/PUT/DELETE) at 10/min/IP and returns a Korean 429 page.
 
 ### Credentials
 
@@ -68,47 +65,29 @@ Limit API requests with `Rack::Attack`.
 
 ### Status Indicators
 
-Always display text labels alongside emoji statuses (e.g., "Red circle Not recommended" not just "Red circle"). Add ARIA labels for screen readers.
+Severity badges pair color with the Korean label (양호/주의/심각). Never rely on color alone to convey status. Add ARIA labels for screen readers where the label is not visible text.
 
 ### Keyboard Navigation
 
-Ensure all interactive elements (buttons, form inputs, links) are reachable via Tab key. Checklist question answers must be selectable via keyboard.
-
-### Form Inputs
-
-- NUMBER fields must use `inputmode="numeric"` for mobile keyboard optimization
-- Display unit suffix (%, won, year) adjacent to input
-
-### Tooltips
-
-Legal/auction terminology should have inline `help_text` tooltips, accessible via hover (desktop) and tap (mobile).
-
-### Color Independence
-
-Never rely on color alone to convey status. Always pair with text and/or icons.
+Ensure all interactive elements (severity buttons, form inputs, links) are reachable via Tab key.
 
 ### Responsive Design
 
-Mobile-first approach using TailwindCSS breakpoints. Ensure touch targets are at least 44x44px.
+Mobile-first using TailwindCSS breakpoints. Touch targets must be at least 44×44 px — enforced by `test/system/accessibility_touch_targets_test.rb`.
 
 ## Performance Guidelines
 
-### Fragment Caching
-
-Cache HTML fragments for frequently used UI components.
-
-### Eager Loading
-
-Use parallel requests or background loading for heavy external data.
-
 ### Prevent N+1 Queries
 
-- Use `includes`, `preload`, `eager_load` appropriately
-- Monitor with Bullet gem
+Use `includes`, `preload`, or `eager_load` when iterating associations. The summary screen renders one query per house — keep it that way.
 
 ### Database Indexing
 
-Add indexes to columns frequently used for search/filtering.
+Add indexes for columns used in lookup or uniqueness. Current indexes: `houses(owner_session_id)`, unique `inspection_checks(house_id, item_key)`.
+
+### Fragment Caching
+
+Reach for fragment caching only when a view is repeatedly rendered without changing. Not currently warranted.
 
 ## Evidence-Driven Self-Diagnosis
 
@@ -143,14 +122,15 @@ For diagnosis workflow, follow the `systematic-debugging` skill.
 - [ ] No linting errors (`bin/rubocop`)
 - [ ] No security warnings (`bin/brakeman`)
 - [ ] No dependency vulnerabilities (`bin/bundler-audit`)
+- [ ] No JS advisories (`bin/importmap audit`)
 
 ### Manual Review
 
 - [ ] Structural and behavioral changes are in separate commits
+- [ ] System tests pass for any UI change (`bin/rails test:system`)
 - [ ] New features have corresponding tests
-- [ ] Accessibility requirements are met for UI changes
+- [ ] Accessibility (≥44×44 px touch targets, color+text) for UI changes
 - [ ] No N+1 queries introduced
-- [ ] Fragment caching applied where appropriate
 
 ## Pre-commit Failure Recovery
 

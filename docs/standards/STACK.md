@@ -21,11 +21,11 @@ Exact versions: see `Gemfile.lock` (Rails), `.ruby-version` (Ruby).
 - **Strategy**: Hotwire (Turbo + Stimulus)
   - **Turbo**: SPA-like navigation and partial page updates
   - **Turbo Frames** for pagination/tabs (no full page reloads)
-  - **Turbo Streams** for partial updates
+  - **Turbo Streams** for partial updates (e.g., `InspectionChecksController` upserts a row + domain count)
   - **Stimulus**: Pure JavaScript controllers, data-attribute conventions (`data-controller`, `data-action`, `data-*-target`)
   - **No TypeScript** — use only JavaScript
 - **Styling**: TailwindCSS
-- **Components**: ViewComponent for reusable UI with Lookbook for previews
+- **Reusable UI**: Plain ERB partials under `app/views/shared/` (e.g., `_severity_badge.html.erb`, `_domain_section.html.erb`). ViewComponent is not used in this MVP.
 
 ### Testing
 
@@ -48,123 +48,22 @@ Exact versions: see `Gemfile.lock` (Rails), `.ruby-version` (Ruby).
 - **Container**: Optimized Dockerfile, mount `/rails/storage` for SQLite/ActiveStorage/Solid services, run as non-root (UID/GID 1000)
 - **CI/CD**: GitHub Actions (automated testing, linting, security checks)
 
-### Sub-directory Deployment
-
-When deploying multiple projects on a single server under sub-paths (e.g., `example.com/my-app/`):
-
-#### Environment & Rails Config
-
-```bash
-RAILS_RELATIVE_URL_ROOT=/my-app
-```
-
-```ruby
-# config/environments/production.rb
-config.relative_url_root = ENV.fetch("RAILS_RELATIVE_URL_ROOT", "/")
-```
-
-```ruby
-# config.ru
-map ENV.fetch("RAILS_RELATIVE_URL_ROOT", "/") do
-  run Rails.application
-end
-```
-
-#### Asset Pipeline (Propshaft)
-
-- Always use `asset_path` / `asset_url` helpers — they respect `relative_url_root` automatically
-- Never hardcode absolute paths like `/assets/...` in CSS or JS
-
-#### Hotwire (Turbo + Stimulus)
-
-- **Turbo Drive**: Set turbo-root meta tag in layout:
-  ```erb
-  <meta name="turbo-root" content="<%= config.relative_url_root %>">
-  ```
-- **Action Cable**: Adjust mount path in routes:
-  ```ruby
-  mount ActionCable.server => "#{config.relative_url_root}/cable"
-  ```
-- **Stimulus controllers**: Pass paths via `data-*` attributes or `<meta>` tags — never hardcode URL paths in JS
-
-#### Reverse Proxy (nginx → Thruster)
-
-```nginx
-location /my-app/ {
-    proxy_pass http://thruster-upstream/;  # trailing slash strips prefix
-    proxy_set_header X-Forwarded-Prefix /my-app;
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $proxy_for_addr;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-```
-
-#### Kamal 2
-
-```yaml
-# config/deploy.yml
-env:
-  clear:
-    RAILS_RELATIVE_URL_ROOT: /my-app
-```
-
-#### Checklist
-
-| Item | Verify |
-|------|--------|
-| `*_path` / `*_url` helpers | Include prefix (no hardcoded absolute paths) |
-| JS fetch/XHR paths | Receive base path from `data-*` or `<meta>` |
-| Action Cable connection | WebSocket path includes prefix |
-| `redirect_to` | Automatically includes prefix |
-| Health check path | Adjust Kamal/load balancer health check URL |
-| Solid Queue Web UI | Adjust mount path if exposed |
-
 ### Background Jobs
 
 - **Backend**: Solid Queue (database-backed, no Redis)
-- **Worker**: `bin/rails solid_queue:start`
-- **Use Cases**: Heavy API calls, email delivery, data processing
-- **Kamal**: Deploy as separate `job` role for resource isolation
+- **Worker**: `bin/jobs` (Rails 8 default)
+- **Status**: No application jobs in this MVP. Solid Queue is configured and ready when one is needed.
+- **Kamal**: Deploy as separate `job` role for resource isolation when introduced.
 
 ## Architecture Patterns
 
-### Service Objects
+### POROs in `app/lib/`
 
-`app/services/*_service.rb` — Follow single responsibility principle, provide unified interface via `call` method.
-
-### Adapter Pattern
-
-API communication abstraction with mock support:
-
-```ruby
-# app/adapters/base_adapter.rb
-class BaseAdapter
-  def self.for(provider)
-    ENV['USE_MOCK'] == 'true' ? MockAdapter.new : RealAdapter.new
-  end
-end
-```
-
-- **Dev server**: `USE_MOCK=true` in `.env` for rapid feedback without network calls.
-- **Tests**: Use constructor injection for test isolation instead of environment variables:
-  ```ruby
-  class SomeService
-    def initialize(adapter: BaseAdapter.for(:provider))
-      @adapter = adapter
-    end
-  end
-  # In tests: SomeService.new(adapter: MockAdapter.new)
-  ```
-
-### Custom Errors
-
-Define in `app/errors/custom_error.rb` with `rescue_from` in controllers.
+Pure-function value objects live under `app/lib/` (e.g., `Checklist`, `HouseSummary`). Prefer this over service objects for code that doesn't touch the database — `HouseSummary` accepts a House and an array of `InspectionCheck`s and returns counts/lists, which makes it trivial to test in memory.
 
 ### Caching Strategy
 
-- **Fragment caching**: UI components that don't change frequently
-- **API response caching**: External API call results (TTL setting required)
-- Use Solid Cache as the backend
+Solid Cache is the configured backend. Reach for fragment caching when a view component is repeatedly rendered without changing — but do not pre-cache speculatively. None of the current views warrant caching.
 
 ## Hotwire Best Practices
 
@@ -194,13 +93,13 @@ end
 
 ## UI/Frontend Rules
 
-UI components follow the project's design tokens and specs. When creating new components, follow patterns from existing components for consistency.
+- **Mobile first**: Designed for the visitor's phone at 375×667. Touch targets ≥ 44×44 px (see `test/system/accessibility_touch_targets_test.rb`).
+- **Severity color + text**: Never rely on color alone — every severity badge pairs a color with the Korean label (양호/주의/심각). See `app/views/shared/_severity_badge.html.erb`.
+- **Reuse existing partials**: When adding a new section, follow `_domain_section.html.erb` and `_severity_badge.html.erb` for consistency.
 
 ## Internationalization (i18n)
 
-- Use Rails `I18n` API (`config/locales/*.yml`) as primary translation engine
-- Use structured translation keys: `t('login.button.submit')`, convention: `[page_or_component].[element].[action]`
-- Recommended gems: `rails-i18n`, `i18n-tasks`, `mobility` (for DB record translations)
+UI is Korean only, hardcoded in ERB views. Multi-language is out of scope (see the defect-checklist spec). `config/locales/en.yml` is retained for Rails default validation messages.
 
 ## Rails 8 — Do NOT Use (Removed/Deprecated)
 

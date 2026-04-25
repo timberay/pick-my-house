@@ -16,8 +16,8 @@ Detailed standards are in `docs/standards/`. **Read the relevant document(s) bef
 | Document | Description |
 |----------|-------------|
 | [RULES.md](docs/standards/RULES.md) | DRY, Tidy First, documentation rules, AI instruction writing guidelines |
-| [STACK.md](docs/standards/STACK.md) | Project overview, tech stack, patterns, Hotwire, deployment, i18n, Rails 8 specifics |
-| [TOOLS.md](docs/standards/TOOLS.md) | Dev commands, environment config, API tools |
+| [STACK.md](docs/standards/STACK.md) | Architecture, tech stack, Hotwire patterns, UI/frontend rules, Rails 8 specifics |
+| [TOOLS.md](docs/standards/TOOLS.md) | Dev commands, CI pipeline, credentials, deployment commands |
 | [QUALITY.md](docs/standards/QUALITY.md) | Testing, security, accessibility, performance, code review, pre-commit failure recovery |
 | [WORKFLOW.md](docs/standards/WORKFLOW.md) | Pipeline Phases (4-Layer Design Separation) for new feature work |
 
@@ -39,7 +39,6 @@ Before starting work, read the documents mapped to your task type:
 | UI / Frontend / Styling | STACK (UI/Frontend Rules, Hotwire), QUALITY (Accessibility) |
 | Bug fix / Debugging | QUALITY |
 | Testing | QUALITY (Testing Strategy) |
-| API integration | STACK (Adapter Pattern), TOOLS |
 | Database / Migration | STACK (Database & Infrastructure), TOOLS (Database commands) |
 | Deployment / DevOps | STACK (Deployment), TOOLS (Deployment commands) |
 | Code review / PR | QUALITY (Code Review Checklist) |

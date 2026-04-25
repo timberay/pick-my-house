@@ -40,19 +40,10 @@ bin/importmap audit
 ### Testing
 
 ```bash
-bin/rails test                              # Run all tests
+bin/rails test                              # Unit / request / integration
+bin/rails test:system                       # Capybara + Selenium system tests (mobile viewport 375×667)
 bin/rails test test/models/foo_test.rb      # Single file
 bin/rails test test/models/foo_test.rb:42   # Single test by line
-```
-
-### E2E Testing (Playwright)
-
-Requires Node.js as a dev dependency (separate from importmap-rails):
-
-```bash
-npm init -y && npm install -D @playwright/test  # Initial setup
-npx playwright install                           # Install browsers
-npx playwright test                              # Run E2E tests
 ```
 
 ### CI Pipeline
@@ -74,25 +65,20 @@ bin/importmap pin <package>  # Add JS dependency via importmap
 
 ```bash
 bin/rails solid_cache:clear  # Clear Solid Cache
-bin/rails solid_queue:start  # Start Solid Queue worker
+bin/jobs                     # Start Solid Queue worker (Rails 8 default)
 ```
 
 ### Deployment
 
 ```bash
-kamal setup                  # Initial server provisioning
-kamal deploy                 # Zero-downtime deployment
-kamal app logs               # View application logs
-docker-compose up --build    # Local deployment simulation
+bin/kamal setup              # Initial server provisioning
+bin/kamal deploy             # Zero-downtime deployment
+bin/kamal app logs           # View application logs
 ```
 
 ## Environment Configuration
 
-```bash
-# .env (development defaults — use credentials for secrets)
-RAILS_ENV=development
-USE_MOCK=true
-```
+This MVP has no `.env` file or environment-driven feature flags — Rails reads `RAILS_ENV` from the runtime, and secrets live in Rails credentials.
 
 ### Credentials Management
 
@@ -102,7 +88,3 @@ rails credentials:edit --environment development
 
 - Never commit sensitive information to `.env` file
 - Use Rails credentials for API keys, secrets, and sensitive configuration
-
-## API Integration Tools
-
-See [STACK.md](STACK.md) — Adapter Pattern section.

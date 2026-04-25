@@ -24,7 +24,7 @@ Separate **Structural Changes** (refactoring) from **Behavioral Changes** (new l
 - **`docs/superpowers/`**: Project documentation managed by superpowers plugin
   - `specs/` — Design specs from brainstorming sessions
   - `plans/` — Implementation plans for feature work
-- **`db/seeds/`**: Seed data files (e.g., `master_checklist.json`)
+- **`config/checklist.yml`**: The 50-item defect checklist (10 domains). Source of truth for inspection items.
 
 ### Writing Principles
 
