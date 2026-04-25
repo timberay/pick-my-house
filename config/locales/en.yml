@@ -1,31 +1,169 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  activerecord:
+    models:
+      house: "House"
+      inspection_check: "Inspection Item"
+    attributes:
+      house:
+        alias: "Nickname"
+        address: "Address"
+        agent_contact: "Agent"
+        visited_at: "Visit date"
+      inspection_check:
+        item_key: "Item"
+        severity: "Rating"
+        memo: "Memo"
+    errors:
+      models:
+        house:
+          attributes:
+            alias:
+              blank: "Please enter a nickname for the house"
+              too_long: "Nickname is at most %{count} characters"
+  errors:
+    format: "%{message}"
+    messages:
+      blank: "is required"
+      taken: "is already in use"
+      too_long: "is at most %{count} characters"
+      inclusion: "is not an allowed value"
+  helpers:
+    submit:
+      create: "Add"
+      update: "Update"
+      submit: "Save"
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      long: "%B %-d, %Y"
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+
+  layout:
+    app_name: "Pick My House"
+    dark_mode_toggle: "Toggle dark mode"
+    footer:
+      disclaimer: "All inspection records are stored on this device."
+    locale_switcher:
+      ko: "한국어"
+      en: "English"
+
+  common:
+    save: "Save"
+    cancel: "Cancel"
+    edit: "Edit"
+    go_home: "Home"
+    go_inspection: "Back to inspection"
+
+  inspection_checks:
+    severity:
+      ok: "OK"
+      warn: "Warn"
+      severe: "Severe"
+    status:
+      unchecked: "Unchecked"
+    check_row:
+      memo_add: "Add memo"
+      memo_edit: "Edit memo"
+      memo_placeholder: "One-line note"
+
+  houses:
+    index:
+      title: "My Houses"
+      empty:
+        heading: "No houses saved yet."
+        body: "Tap the button below to add your first house and start inspecting."
+      new: "Add house"
+    show:
+      view_summary: "View summary"
+    new:
+      title: "Add house"
+    edit:
+      title: "Edit house"
+      destroy: "Delete this house"
+      confirm_destroy: "Really delete? All inspection records for this house will be removed."
+    form:
+      alias_label: "Nickname"
+      alias_placeholder: "e.g., Sinbanpo 32 pyeong"
+      address_label: "Address"
+      agent_contact_label: "Agent (name / phone)"
+      visited_at_label: "Visit date"
+    destroy:
+      notice: "Deleted"
+
+  summaries:
+    show:
+      title: "%{alias} Summary"
+      severe_heading: "Severe (%{count})"
+      warn_heading: "Warn (%{count})"
+      unchecked_expand: "Show unchecked items (%{count})"
+      deleted_heading: "Deleted items (%{count})"
+
+  shared:
+    domain_progress:
+      progress: "%{rated}/%{total} done"
+
+  checklist:
+    domains:
+      water:    { label: "Water / plumbing" }
+      electric: { label: "Electrical" }
+      mold:     { label: "Mold / condensation" }
+      windows:  { label: "Windows / insulation" }
+      smell:    { label: "Smell" }
+      noise:    { label: "Noise" }
+      heating:  { label: "Heating" }
+      security: { label: "Security / locks" }
+      finish:   { label: "Finishing / interior" }
+      surround: { label: "Surroundings" }
+    items:
+      water_pressure:     { label: "Strong water pressure (test by full-blast shower)" }
+      hot_water_time:     { label: "Hot water arrives within 30 seconds" }
+      rust_free:          { label: "No rust or sediment in the water" }
+      drain_speed:        { label: "Sink drains quickly" }
+      balcony_drain:      { label: "Balcony drain is not clogged" }
+      toilet_flush:       { label: "Toilet flushes properly" }
+      boiler_on_time:     { label: "Boiler hot-water wait time is reasonable" }
+      outlets_working:    { label: "Outlets work (check at least one per room)" }
+      breaker_accessible: { label: "Main / GFCI breaker is accessible" }
+      lights_working:     { label: "All lights work" }
+      aircon_drain:       { label: "AC drain hole is available" }
+      internet_line:      { label: "Internet line (LAN / wall jack) exists" }
+      ceiling_corner:     { label: "No mold on bedroom ceiling / wall corners" }
+      bath_silicone:      { label: "No mold on bathroom ceiling / silicone" }
+      window_frame:       { label: "No condensation / mold on window frames (esp. north-facing)" }
+      wallpaper_stain:    { label: "No stains or peeling on wallpaper / flooring" }
+      sink_under:         { label: "No mold under the sink cabinet" }
+      balcony_wall:       { label: "No stains or condensation on balcony walls" }
+      window_smooth:      { label: "Windows open and close smoothly" }
+      window_lock:        { label: "Window locks work" }
+      window_screen:      { label: "Window screens are not torn" }
+      window_draft:       { label: "No drafts through window gaps" }
+      double_glazing:     { label: "Confirm double-glazed windows" }
+      indoor_musty:       { label: "No musty / stale smell indoors" }
+      drain_sewer:        { label: "No sewer backflow smell from drains" }
+      hallway_smell:      { label: "No smell in the elevator hall / corridor" }
+      trap_water:         { label: "Drain trap holds water (S-trap)" }
+      floor_noise:        { label: "Inter-floor noise (visit in the evening if possible)" }
+      road_noise:         { label: "Road noise (test with windows closed)" }
+      pipe_noise:         { label: "Plumbing noise (when neighbors use water)" }
+      external_noise:     { label: "Nearby construction / rail noise" }
+      boiler_condition:   { label: "Boiler age / condition" }
+      heating_type:       { label: "Heating type (district / individual / city gas)" }
+      winter_cost:        { label: "Confirm estimated winter heating cost" }
+      floor_heating:      { label: "Floor heating works (test run)" }
+      door_lock:          { label: "Front-door electronic lock works (reset confirmed)" }
+      peephole:           { label: "Peephole / camera at the front door" }
+      intercom:           { label: "Intercom video / audio works" }
+      window_guard:       { label: "Window guards on lower floors" }
+      wallpaper:          { label: "No tears, stains, or peeling on wallpaper" }
+      flooring:           { label: "No tears, peeling, or discoloration on flooring" }
+      tile_grout:         { label: "No cracked tiles; clean silicone finish" }
+      door_hinge:         { label: "Door hinges / handles do not wobble" }
+      kitchen_cabinet:    { label: "No damage to sink top / cabinet storage" }
+      door_gap:           { label: "No gaps or warping in interior doors" }
+      elevator:           { label: "Elevator speed / sound / cleanliness" }
+      corridor:           { label: "Shared corridor smell / cleanliness" }
+      garbage:            { label: "Distance to / smell from trash area" }
+      parking:            { label: "Parking spot availability" }
+      delivery_security:  { label: "Delivery / security desk system" }

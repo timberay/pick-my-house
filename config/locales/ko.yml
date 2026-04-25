@@ -27,6 +27,18 @@ ko:
       taken: 이미 사용 중입니다
       too_long: 최대 %{count}자까지 가능합니다
       inclusion: 허용되지 않은 값입니다
+  helpers:
+    submit:
+      create: "추가"
+      update: "수정"
+      submit: "저장"
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      long: "%Y년 %m월 %d일"
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
   layout:
     app_name: "Pick My House"
     dark_mode_toggle: "다크 모드 전환"

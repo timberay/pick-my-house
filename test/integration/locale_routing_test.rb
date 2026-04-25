@@ -50,4 +50,11 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
     get "/en/houses"
     assert_match(/locale=en/, response.headers["Set-Cookie"].to_s)
   end
+
+  test "GET /en/houses renders English UI text" do
+    get "/en/houses"
+    assert_response :success
+    assert_match "My Houses", response.body
+    assert_match "All inspection records are stored on this device.", response.body
+  end
 end
