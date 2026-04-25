@@ -35,9 +35,9 @@
                       data: { turbo_stream: true }, class: "mt-2 flex gap-2" do |f| %>
           <%= f.hidden_field :item_key, value: item.key %>
           <%= f.hidden_field :severity, value: check.severity %>
-          <%= f.text_field :memo, value: check.memo, maxlength: 500,
+          <%= f.text_field :memo, value: check.memo, maxlength: 500, size: nil,
               placeholder: "특이사항 한 줄",
-              class: "flex-1 border rounded px-2 py-1" %>
+              class: "flex-1 min-w-0 border rounded px-2 py-1" %>
           <button type="submit" class="bg-gray-800 text-white px-3 rounded">저장</button>
         <% end %>
         <% if check.memo.present? %>
