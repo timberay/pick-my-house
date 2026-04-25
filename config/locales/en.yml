@@ -1,169 +1,223 @@
+---
 en:
   activerecord:
-    models:
-      house: "House"
-      inspection_check: "Inspection Item"
     attributes:
       house:
-        alias: "Nickname"
-        address: "Address"
-        agent_contact: "Agent"
-        visited_at: "Visit date"
+        address: Address
+        agent_contact: Agent
+        alias: Nickname
+        visited_at: Visit date
       inspection_check:
-        item_key: "Item"
-        severity: "Rating"
-        memo: "Memo"
+        item_key: Item
+        memo: Memo
+        severity: Rating
     errors:
       models:
         house:
           attributes:
             alias:
-              blank: "Please enter a nickname for the house"
-              too_long: "Nickname is at most %{count} characters"
-  errors:
-    format: "%{message}"
-    messages:
-      blank: "is required"
-      taken: "is already in use"
-      too_long: "is at most %{count} characters"
-      inclusion: "is not an allowed value"
-  helpers:
-    submit:
-      create: "Add"
-      update: "Update"
-      submit: "Save"
+              blank: Please enter a nickname for the house
+              too_long: Nickname is at most %{count} characters
+    models:
+      house: House
+      inspection_check: Inspection Item
+  checklist:
+    domains:
+      electric:
+        label: Electrical
+      finish:
+        label: Finishing / interior
+      heating:
+        label: Heating
+      mold:
+        label: Mold / condensation
+      noise:
+        label: Noise
+      security:
+        label: Security / locks
+      smell:
+        label: Smell
+      surround:
+        label: Surroundings
+      water:
+        label: Water / plumbing
+      windows:
+        label: Windows / insulation
+    items:
+      aircon_drain:
+        label: AC drain hole is available
+      balcony_drain:
+        label: Balcony drain is not clogged
+      balcony_wall:
+        label: No stains or condensation on balcony walls
+      bath_silicone:
+        label: No mold on bathroom ceiling / silicone
+      boiler_condition:
+        label: Boiler age / condition
+      boiler_on_time:
+        label: Boiler hot-water wait time is reasonable
+      breaker_accessible:
+        label: Main / GFCI breaker is accessible
+      ceiling_corner:
+        label: No mold on bedroom ceiling / wall corners
+      corridor:
+        label: Shared corridor smell / cleanliness
+      delivery_security:
+        label: Delivery / security desk system
+      door_gap:
+        label: No gaps or warping in interior doors
+      door_hinge:
+        label: Door hinges / handles do not wobble
+      door_lock:
+        label: Front-door electronic lock works (reset confirmed)
+      double_glazing:
+        label: Confirm double-glazed windows
+      drain_sewer:
+        label: No sewer backflow smell from drains
+      drain_speed:
+        label: Sink drains quickly
+      elevator:
+        label: Elevator speed / sound / cleanliness
+      external_noise:
+        label: Nearby construction / rail noise
+      floor_heating:
+        label: Floor heating works (test run)
+      floor_noise:
+        label: Inter-floor noise (visit in the evening if possible)
+      flooring:
+        label: No tears, peeling, or discoloration on flooring
+      garbage:
+        label: Distance to / smell from trash area
+      hallway_smell:
+        label: No smell in the elevator hall / corridor
+      heating_type:
+        label: Heating type (district / individual / city gas)
+      hot_water_time:
+        label: Hot water arrives within 30 seconds
+      indoor_musty:
+        label: No musty / stale smell indoors
+      intercom:
+        label: Intercom video / audio works
+      internet_line:
+        label: Internet line (LAN / wall jack) exists
+      kitchen_cabinet:
+        label: No damage to sink top / cabinet storage
+      lights_working:
+        label: All lights work
+      outlets_working:
+        label: Outlets work (check at least one per room)
+      parking:
+        label: Parking spot availability
+      peephole:
+        label: Peephole / camera at the front door
+      pipe_noise:
+        label: Plumbing noise (when neighbors use water)
+      road_noise:
+        label: Road noise (test with windows closed)
+      rust_free:
+        label: No rust or sediment in the water
+      sink_under:
+        label: No mold under the sink cabinet
+      tile_grout:
+        label: No cracked tiles; clean silicone finish
+      toilet_flush:
+        label: Toilet flushes properly
+      trap_water:
+        label: Drain trap holds water (S-trap)
+      wallpaper:
+        label: No tears, stains, or peeling on wallpaper
+      wallpaper_stain:
+        label: No stains or peeling on wallpaper / flooring
+      water_pressure:
+        label: Strong water pressure (test by full-blast shower)
+      window_draft:
+        label: No drafts through window gaps
+      window_frame:
+        label: No condensation / mold on window frames (esp. north-facing)
+      window_guard:
+        label: Window guards on lower floors
+      window_lock:
+        label: Window locks work
+      window_screen:
+        label: Window screens are not torn
+      window_smooth:
+        label: Windows open and close smoothly
+      winter_cost:
+        label: Confirm estimated winter heating cost
+  common:
+    edit: Edit
+    go_home: Home
+    go_inspection: Back to inspection
+    save: Save
   date:
     formats:
       default: "%Y-%m-%d"
       long: "%B %-d, %Y"
-  time:
-    formats:
-      default: "%Y-%m-%d %H:%M"
-
-  layout:
-    app_name: "Pick My House"
-    dark_mode_toggle: "Toggle dark mode"
-    footer:
-      disclaimer: "All inspection records are stored on this device."
-    locale_switcher:
-      ko: "한국어"
-      en: "English"
-
-  common:
-    save: "Save"
-    cancel: "Cancel"
-    edit: "Edit"
-    go_home: "Home"
-    go_inspection: "Back to inspection"
-
-  inspection_checks:
-    severity:
-      ok: "OK"
-      warn: "Warn"
-      severe: "Severe"
-    status:
-      unchecked: "Unchecked"
-    check_row:
-      memo_add: "Add memo"
-      memo_edit: "Edit memo"
-      memo_placeholder: "One-line note"
-
+  errors:
+    format: "%{message}"
+    messages:
+      blank: is required
+      inclusion: is not an allowed value
+      taken: is already in use
+      too_long: is at most %{count} characters
+  helpers:
+    submit:
+      create: Add
+      submit: Save
+      update: Update
   houses:
-    index:
-      title: "My Houses"
-      empty:
-        heading: "No houses saved yet."
-        body: "Tap the button below to add your first house and start inspecting."
-      new: "Add house"
-    show:
-      view_summary: "View summary"
-    new:
-      title: "Add house"
-    edit:
-      title: "Edit house"
-      destroy: "Delete this house"
-      confirm_destroy: "Really delete? All inspection records for this house will be removed."
-    form:
-      alias_label: "Nickname"
-      alias_placeholder: "e.g., Sinbanpo 32 pyeong"
-      address_label: "Address"
-      agent_contact_label: "Agent (name / phone)"
-      visited_at_label: "Visit date"
     destroy:
-      notice: "Deleted"
-
-  summaries:
+      notice: Deleted
+    edit:
+      confirm_destroy: Really delete? All inspection records for this house will be
+        removed.
+      destroy: Delete this house
+      title: Edit house
+    form:
+      address_label: Address
+      agent_contact_label: Agent (name / phone)
+      alias_label: Nickname
+      alias_placeholder: e.g., Sinbanpo 32 pyeong
+      visited_at_label: Visit date
+    index:
+      empty:
+        body: Tap the button below to add your first house and start inspecting.
+        heading: No houses saved yet.
+      new: Add house
+      title: My Houses
+    new:
+      title: Add house
     show:
-      title: "%{alias} Summary"
-      severe_heading: "Severe (%{count})"
-      warn_heading: "Warn (%{count})"
-      unchecked_expand: "Show unchecked items (%{count})"
-      deleted_heading: "Deleted items (%{count})"
-
+      view_summary: View summary
+  inspection_checks:
+    check_row:
+      memo_add: Add memo
+      memo_edit: Edit memo
+      memo_placeholder: One-line note
+    severity:
+      ok: OK
+      severe: Severe
+      warn: Warn
+    status:
+      unchecked: Unchecked
+  layout:
+    app_name: Pick My House
+    dark_mode_toggle: Toggle dark mode
+    footer:
+      disclaimer: All inspection records are stored on this device.
+    locale_switcher:
+      en: English
+      ko: 한국어
   shared:
     domain_progress:
       progress: "%{rated}/%{total} done"
-
-  checklist:
-    domains:
-      water:    { label: "Water / plumbing" }
-      electric: { label: "Electrical" }
-      mold:     { label: "Mold / condensation" }
-      windows:  { label: "Windows / insulation" }
-      smell:    { label: "Smell" }
-      noise:    { label: "Noise" }
-      heating:  { label: "Heating" }
-      security: { label: "Security / locks" }
-      finish:   { label: "Finishing / interior" }
-      surround: { label: "Surroundings" }
-    items:
-      water_pressure:     { label: "Strong water pressure (test by full-blast shower)" }
-      hot_water_time:     { label: "Hot water arrives within 30 seconds" }
-      rust_free:          { label: "No rust or sediment in the water" }
-      drain_speed:        { label: "Sink drains quickly" }
-      balcony_drain:      { label: "Balcony drain is not clogged" }
-      toilet_flush:       { label: "Toilet flushes properly" }
-      boiler_on_time:     { label: "Boiler hot-water wait time is reasonable" }
-      outlets_working:    { label: "Outlets work (check at least one per room)" }
-      breaker_accessible: { label: "Main / GFCI breaker is accessible" }
-      lights_working:     { label: "All lights work" }
-      aircon_drain:       { label: "AC drain hole is available" }
-      internet_line:      { label: "Internet line (LAN / wall jack) exists" }
-      ceiling_corner:     { label: "No mold on bedroom ceiling / wall corners" }
-      bath_silicone:      { label: "No mold on bathroom ceiling / silicone" }
-      window_frame:       { label: "No condensation / mold on window frames (esp. north-facing)" }
-      wallpaper_stain:    { label: "No stains or peeling on wallpaper / flooring" }
-      sink_under:         { label: "No mold under the sink cabinet" }
-      balcony_wall:       { label: "No stains or condensation on balcony walls" }
-      window_smooth:      { label: "Windows open and close smoothly" }
-      window_lock:        { label: "Window locks work" }
-      window_screen:      { label: "Window screens are not torn" }
-      window_draft:       { label: "No drafts through window gaps" }
-      double_glazing:     { label: "Confirm double-glazed windows" }
-      indoor_musty:       { label: "No musty / stale smell indoors" }
-      drain_sewer:        { label: "No sewer backflow smell from drains" }
-      hallway_smell:      { label: "No smell in the elevator hall / corridor" }
-      trap_water:         { label: "Drain trap holds water (S-trap)" }
-      floor_noise:        { label: "Inter-floor noise (visit in the evening if possible)" }
-      road_noise:         { label: "Road noise (test with windows closed)" }
-      pipe_noise:         { label: "Plumbing noise (when neighbors use water)" }
-      external_noise:     { label: "Nearby construction / rail noise" }
-      boiler_condition:   { label: "Boiler age / condition" }
-      heating_type:       { label: "Heating type (district / individual / city gas)" }
-      winter_cost:        { label: "Confirm estimated winter heating cost" }
-      floor_heating:      { label: "Floor heating works (test run)" }
-      door_lock:          { label: "Front-door electronic lock works (reset confirmed)" }
-      peephole:           { label: "Peephole / camera at the front door" }
-      intercom:           { label: "Intercom video / audio works" }
-      window_guard:       { label: "Window guards on lower floors" }
-      wallpaper:          { label: "No tears, stains, or peeling on wallpaper" }
-      flooring:           { label: "No tears, peeling, or discoloration on flooring" }
-      tile_grout:         { label: "No cracked tiles; clean silicone finish" }
-      door_hinge:         { label: "Door hinges / handles do not wobble" }
-      kitchen_cabinet:    { label: "No damage to sink top / cabinet storage" }
-      door_gap:           { label: "No gaps or warping in interior doors" }
-      elevator:           { label: "Elevator speed / sound / cleanliness" }
-      corridor:           { label: "Shared corridor smell / cleanliness" }
-      garbage:            { label: "Distance to / smell from trash area" }
-      parking:            { label: "Parking spot availability" }
-      delivery_security:  { label: "Delivery / security desk system" }
+  summaries:
+    show:
+      deleted_heading: Deleted items (%{count})
+      severe_heading: Severe (%{count})
+      title: "%{alias} Summary"
+      unchecked_expand: Show unchecked items (%{count})
+      warn_heading: Warn (%{count})
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"

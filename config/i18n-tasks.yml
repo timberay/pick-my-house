@@ -1,0 +1,30 @@
+base_locale: ko
+locales: [ko, en]
+
+read:
+  - config/locales/%{locale}.yml
+
+search:
+  paths:
+    - app/
+  exclude:
+    - app/assets/images
+    - app/assets/builds
+
+ignore_unused:
+  # Rails standard implicit lookups
+  - activerecord.models.*
+  - activerecord.attributes.*
+  - activerecord.errors.*
+  - errors.format
+  - errors.messages.*
+  - helpers.submit.*
+  - date.formats.*
+  - time.formats.*
+  # Severity keys looked up dynamically: t("inspection_checks.severity.#{level}")
+  - inspection_checks.severity.*
+  # Layout switcher keys looked up dynamically: t("layout.locale_switcher.#{loc}")
+  - layout.locale_switcher.*
+  # Checklist keys looked up dynamically via helper (domain.key / item.key interpolation)
+  - checklist.domains.*
+  - checklist.items.*
