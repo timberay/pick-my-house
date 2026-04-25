@@ -57,4 +57,29 @@ class ChecklistTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "raises when a domain payload is not a hash" do
+    Checklist.reset!
+    Tempfile.create([ "checklist", ".yml" ]) do |f|
+      f.write("water: just-a-string\n")
+      f.flush
+      with_yaml_path(Pathname.new(f.path)) do
+        error = assert_raises(Checklist::Error) { Checklist.domains }
+        assert_match(/water/, error.message)
+      end
+    end
+  end
+
+  test "raises when a domain's items is not an array" do
+    Checklist.reset!
+    Tempfile.create([ "checklist", ".yml" ]) do |f|
+      f.write("water:\n  items: not-an-array\n")
+      f.flush
+      with_yaml_path(Pathname.new(f.path)) do
+        error = assert_raises(Checklist::Error) { Checklist.domains }
+        assert_match(/water/, error.message)
+        assert_match(/items/, error.message)
+      end
+    end
+  end
 end

@@ -46,8 +46,12 @@ module Checklist
       raise Error, "checklist.yml must be a hash" unless raw.is_a?(Hash)
 
       raw.map do |domain_key, payload|
-        unless payload.is_a?(Hash) && payload["items"].is_a?(Array)
-          raise Error, "domain '#{domain_key}' is missing items array"
+        unless payload.is_a?(Hash)
+          raise Error, "domain '#{domain_key}' must be a hash, got #{payload.class}"
+        end
+
+        unless payload["items"].is_a?(Array)
+          raise Error, "domain '#{domain_key}' is missing items array (got #{payload["items"].class})"
         end
 
         items = payload["items"].map do |item_key|
