@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsIcons::Engine, at: "/rails_icons" if Rails.env.development?
   root "houses#index"
 
   resources :houses do
