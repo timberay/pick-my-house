@@ -18,15 +18,16 @@ Detailed standards are in `docs/standards/`. **Read the relevant document(s) bef
 | [RULES.md](docs/standards/RULES.md) | DRY, Tidy First, documentation rules, AI instruction writing guidelines |
 | [STACK.md](docs/standards/STACK.md) | Project overview, tech stack, patterns, Hotwire, deployment, i18n, Rails 8 specifics |
 | [TOOLS.md](docs/standards/TOOLS.md) | Dev commands, environment config, API tools |
-| [QUALITY.md](docs/standards/QUALITY.md) | Testing, security, accessibility, performance, code review |
+| [QUALITY.md](docs/standards/QUALITY.md) | Testing, security, accessibility, performance, code review, pre-commit failure recovery |
+| [WORKFLOW.md](docs/standards/WORKFLOW.md) | Pipeline Phases (4-Layer Design Separation) for new feature work |
 
 ## Pre-commit Failure Recovery
 
-When a pre-commit hook (rubocop, test, etc.) fails, fix it yourself and retry — do not stop and ask the user.
+When a pre-commit hook fails, fix it yourself and retry — do not stop and ask the user. **Details**: [QUALITY.md](docs/standards/QUALITY.md#pre-commit-failure-recovery).
 
-- **Rubocop violation**: Run `bin/rubocop -a` to auto-fix, then re-stage and re-commit
-- **Test failure**: Diagnose the failing test, fix the code, verify with `bin/rails test`, then re-commit
-- **Multiple issues**: Fix rubocop first, then tests, then re-commit
+## Pipeline Phases (summary)
+
+For new feature work: `/office-hours` → `/plan-eng-review` → `/superpowers:brainstorming` → `/superpowers:writing-plans` → `/superpowers:executing-plans`. Skip only for bug fixes, refactors, small tweaks. A `UserPromptSubmit` hook reminds you when a feature request is detected. **Full rules**: [WORKFLOW.md](docs/standards/WORKFLOW.md).
 
 ## Task → Required Reading
 

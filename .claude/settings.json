@@ -33,6 +33,18 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "p=$(jq -r '.prompt'); if echo \"$p\" | grep -qiE '기능|구현|추가|만들|개발|feature|implement|build|develop'; then jq -n --rawfile ctx .claude/hooks/pipeline-reminder.txt '{hookSpecificOutput:{hookEventName:\"UserPromptSubmit\",additionalContext:$ctx}}'; fi",
+            "timeout": 5,
+            "statusMessage": "Checking pipeline phase..."
+          }
+        ]
+      }
     ]
   }
 }
