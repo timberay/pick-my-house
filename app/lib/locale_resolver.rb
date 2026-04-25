@@ -21,5 +21,9 @@ module LocaleResolver
     parser = HttpAcceptLanguage::Parser.new(header)
     locale_str = parser.compatible_language_from(I18n.available_locales.map(&:to_s))
     locale_str&.to_sym
+  rescue ArgumentError, Encoding::CompatibilityError
+    nil
   end
+
+  private_class_method :from_value, :from_accept_language
 end

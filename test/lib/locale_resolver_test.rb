@@ -46,4 +46,10 @@ class LocaleResolverTest < ActiveSupport::TestCase
     assert_equal :ko,
                  LocaleResolver.call(param: nil, cookie: "ko", accept_language: "en")
   end
+
+  test "Accept-Language with malformed bytes falls back to default" do
+    bad_header = "\xC3\x28invalid".dup.force_encoding("UTF-8")
+    assert_equal I18n.default_locale,
+                 LocaleResolver.call(param: nil, cookie: nil, accept_language: bad_header)
+  end
 end
