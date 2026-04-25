@@ -30,7 +30,7 @@
   <% if check %>
     <div class="mt-1 flex gap-2 items-start" data-memo-toggle-target="panel">
       <details class="w-full text-sm">
-        <summary class="cursor-pointer text-blue-600">메모 <%= check.memo.present? ? "수정" : "추가" %></summary>
+        <summary class="cursor-pointer text-blue-600 min-h-11 flex items-center">메모 <%= check.memo.present? ? "수정" : "추가" %></summary>
         <%= form_with url: house_checks_path(house), method: :post,
                       data: { turbo_stream: true }, class: "mt-2 flex gap-2" do |f| %>
           <%= f.hidden_field :item_key, value: item.key %>

@@ -4,7 +4,7 @@
   rated = items.count { |i| checks_by_key.key?(i.key) }
 %>
 <details class="border rounded mb-2" <%= "open" if domain == Checklist.domains.first %>>
-  <summary class="cursor-pointer px-3 py-2 bg-gray-50 flex justify-between">
+  <summary class="cursor-pointer px-3 min-h-11 bg-gray-50 flex items-center justify-between">
     <span class="font-medium"><%= domain.label_ko %></span>
     <%= render "shared/domain_progress", domain: domain, rated: rated %>
   </summary>
