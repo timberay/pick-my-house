@@ -12,11 +12,14 @@
           <%= link_to house_path(house), class: "block" do %>
             <div class="font-medium text-lg"><%= house.alias %></div>
             <% summary = HouseSummary.for(house) %>
-            <div class="text-sm text-gray-600 mt-1">
-              심각 <%= summary.counts[:severe] %> ·
-              주의 <%= summary.counts[:warn] %> ·
-              양호 <%= summary.counts[:ok] %> ·
-              미점검 <%= summary.counts[:unchecked] %>
+            <div class="text-sm mt-1">
+              <span class="<%= summary.counts[:severe].positive? ? 'text-red-700 font-medium' : 'text-gray-500' %>">심각 <%= summary.counts[:severe] %></span>
+              <span class="text-gray-400">·</span>
+              <span class="<%= summary.counts[:warn].positive? ? 'text-yellow-700' : 'text-gray-500' %>">주의 <%= summary.counts[:warn] %></span>
+              <span class="text-gray-400">·</span>
+              <span class="text-gray-600">양호 <%= summary.counts[:ok] %></span>
+              <span class="text-gray-400">·</span>
+              <span class="text-gray-500">미점검 <%= summary.counts[:unchecked] %></span>
             </div>
           <% end %>
         </li>
